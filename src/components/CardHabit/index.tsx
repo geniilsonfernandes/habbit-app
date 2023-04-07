@@ -1,8 +1,8 @@
 import CheckHabit from 'components/CheckHabit'
-import * as S from './styles'
 import HeadLabel from 'components/HeadLabel'
+import * as S from './styles'
 
-type CardHabitProps = {
+export type CardHabitProps = {
   habbitName?: string
   intervalTime?: string
   habbitColor?: string
@@ -12,12 +12,12 @@ type CardHabitProps = {
 const CardHabit = ({
   habits,
   intervalTime,
-  habbitName = '',
-  habbitColor = '#A9A9AA',
+  habbitName = ' - ',
+  habbitColor,
 }: CardHabitProps) => (
   <S.Wrapper>
     <S.Header>
-      <HeadLabel title={habbitName} statusColor={habbitColor} />
+      <HeadLabel title={habbitName} barColor={habbitColor} />
       {intervalTime && <S.IntervalTime>{intervalTime}</S.IntervalTime>}
     </S.Header>
     <S.Main>
