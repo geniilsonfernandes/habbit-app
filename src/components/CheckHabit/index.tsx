@@ -1,14 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as S from './styles'
 
 type Status = S.DateProps['status']
 
-type CheckHabitProps = {
+export type CheckHabitProps = {
   day: string
   date: number
   status?: Status
   onClick?: (currentState: Status) => void
 }
+
+const statusMap: Record<string, Status> = {
+  default: 'success',
+  success: 'waiting',
+  waiting: 'failed',
+  failed: 'default',
+}
+
 const CheckHabit = ({
   day,
   date,
@@ -18,31 +26,14 @@ const CheckHabit = ({
   const [colorState, setColorState] = useState<Status>(status)
 
   const handleClickHabitChange = (currentStatus: Status) => {
-    let nextStatus: Status
-
-    switch (currentStatus) {
-      case 'default':
-        nextStatus = 'success'
-        break
-      case 'success':
-        nextStatus = 'waiting'
-        break
-      case 'waiting':
-        nextStatus = 'failed'
-        break
-      case 'failed':
-        nextStatus = 'default'
-        break
-      default:
-        nextStatus = 'default'
-    }
-
+    const nextStatus: Status = statusMap[currentStatus]
     setColorState(nextStatus)
-
-    if (onClick) {
-      onClick(nextStatus)
-    }
+    onClick && onClick(nextStatus)
   }
+
+  useEffect(() => {
+    setColorState(status)
+  }, [status])
 
   return (
     <S.Wrapper>

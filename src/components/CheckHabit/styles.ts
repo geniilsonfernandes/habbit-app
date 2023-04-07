@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, css } from 'styled-components'
 
 export type DateProps = {
-  status?: 'success' | 'waiting' | 'failed' | 'default'
+  status: 'success' | 'waiting' | 'failed' | 'default'
 }
 
 const DateModifiers = {
@@ -31,23 +31,25 @@ export const Wrapper = styled.div`
 `
 
 export const Day = styled.div`
-  color: #aaa;
-  font-size: 1.4rem;
-  padding-bottom: 7px;
+  ${({ theme }) => css`
+    color: ${theme.colors.text.white[100]};
+    font-size: ${theme.font.sizes.xsmall};
+    padding-bottom: ${theme.spacings.xxsmall};
+  `}
 `
 
 export const Date = styled.div<DateProps>`
-  ${({ theme, status = 'default' }) => css`
+  ${({ theme, status }) => css`
     user-select: none;
     height: 38px;
     width: 29px;
-    border-radius: 8px;
+    border-radius: ${theme.radius.md};
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-size: 1.2rem;
+    color: ${theme.colors.text.white[100]};
+    font-size: ${theme.font.sizes.xsmall};
     &:active {
       transform: scale(0.95);
     }
