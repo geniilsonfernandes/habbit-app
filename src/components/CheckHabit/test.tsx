@@ -48,4 +48,56 @@ describe('<CheckHabit />', () => {
 
     expect(onClick).toBeCalledWith('waiting')
   })
+
+  it('should have background color orange', () => {
+    renderWithTheme(<CheckHabit {...props} status="waiting" />)
+
+    const wrapperDate = screen.getByText(props.date)
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.habit.orange[600],
+    })
+  })
+
+  it('should have background all color possibles', () => {
+    renderWithTheme(<CheckHabit {...props} />)
+
+    const wrapperDate = screen.getByText(props.date)
+
+    act(() => {
+      wrapperDate.click()
+    })
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.habit.green[600],
+    })
+
+    act(() => {
+      wrapperDate.click()
+    })
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.habit.orange[600],
+    })
+
+    act(() => {
+      wrapperDate.click()
+    })
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.habit.red[600],
+    })
+
+    act(() => {
+      wrapperDate.click()
+    })
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.dark[200],
+    })
+
+    act(() => {
+      wrapperDate.click()
+    })
+  })
 })
