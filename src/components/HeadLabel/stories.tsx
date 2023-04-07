@@ -1,10 +1,14 @@
 import { Story, Meta } from '@storybook/react'
-
-import HeadLabel from '.'
+import HeadLabel, { HeadLabelProps } from '.'
 
 export default {
   component: HeadLabel,
   title: 'HeadLabel',
-} as Meta
+  args: {
+    title: 'Habit Name',
+    barColor: 'red',
+    variant: 'light',
+  },
+} as Meta<HeadLabelProps>
 
-export const Basic: Story = () => <HeadLabel title="Habit Name" status="red" />
+export const Basic: Story<HeadLabelProps> = (args) => <HeadLabel {...args} />

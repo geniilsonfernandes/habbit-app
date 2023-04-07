@@ -1,18 +1,18 @@
 import * as S from './styles'
 
-type HeadLabelProps = {
+export type HeadLabelProps = {
   title: string
-  statusColor?: string
+  barColor?: string
   variant?: 'light' | 'dark'
 }
 
 const HeadLabel = ({
   title,
   variant = 'light',
-  statusColor = '#A9A9AA',
+  barColor = '#A9A9AA',
 }: HeadLabelProps) => (
   <S.Wrapper>
-    <S.Status status={statusColor} />
+    <S.Status color={barColor} />
     <S.Label variant={variant}>{title}</S.Label>
   </S.Wrapper>
 )
