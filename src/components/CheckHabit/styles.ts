@@ -18,8 +18,8 @@ const DateModifiers = {
     border: 3px solid ${theme.colors.habit.red[500]};
   `,
   default: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.dark[300]};
-    border: 3px solid ${theme.colors.dark[500]};
+    background-color: ${theme.colors.dark[200]};
+    border: 3px solid ${theme.colors.dark[400]};
   `,
 }
 
@@ -38,6 +38,7 @@ export const Day = styled.div`
 
 export const Date = styled.div<DateProps>`
   ${({ theme, status = 'default' }) => css`
+    user-select: none;
     height: 38px;
     width: 29px;
     border-radius: 8px;
@@ -47,6 +48,9 @@ export const Date = styled.div<DateProps>`
     justify-content: center;
     color: #fff;
     font-size: 1.2rem;
+    &:active {
+      transform: scale(0.95);
+    }
     ${!!status && DateModifiers[status](theme)};
   `}
 `
