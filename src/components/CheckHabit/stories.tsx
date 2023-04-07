@@ -7,4 +7,6 @@ export default {
   title: 'CheckHabit',
 } as Meta
 
-export const Basic: Story = () => <CheckHabit />
+export const Basic: Story = () => (
+  <CheckHabit date={2} day="day" status="success" />
+)

@@ -1,3 +1,52 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
-export const Wrapper = styled.main``
+export type DateProps = {
+  status?: 'success' | 'waiting' | 'failed' | 'default'
+}
+
+const DateModifiers = {
+  success: (theme: DefaultTheme) => css`
+    background-color: ${theme.colors.habit.green[600]};
+    border: 3px solid ${theme.colors.habit.green[500]};
+  `,
+  waiting: (theme: DefaultTheme) => css`
+    background-color: ${theme.colors.habit.orange[600]};
+    border: 3px solid ${theme.colors.habit.orange[500]};
+  `,
+  failed: (theme: DefaultTheme) => css`
+    background-color: ${theme.colors.habit.red[600]};
+    border: 3px solid ${theme.colors.habit.red[500]};
+  `,
+  default: (theme: DefaultTheme) => css`
+    background-color: ${theme.colors.dark[300]};
+    border: 3px solid ${theme.colors.dark[500]};
+  `,
+}
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+export const Day = styled.div`
+  color: #aaa;
+  font-size: 1.4rem;
+  padding-bottom: 7px;
+`
+
+export const Date = styled.div<DateProps>`
+  ${({ theme, status = 'default' }) => css`
+    height: 38px;
+    width: 29px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    ${!!status && DateModifiers[status](theme)};
+  `}
+`
