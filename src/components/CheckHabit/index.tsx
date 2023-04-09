@@ -3,11 +3,6 @@ import * as S from './styles'
 
 type Status = S.DateProps['status']
 
-type onClickProps = {
-  id: string
-  currentStatus: Status
-}
-
 export type CheckHabitProps = {
   id: string
   day: string
@@ -43,7 +38,7 @@ const CheckHabit = ({
   }, [status])
 
   return (
-    <S.Wrapper>
+    <S.Wrapper aria-label={`Habit ${id} - ${day} - ${date} - ${colorState}`}>
       <S.Day>{day}</S.Day>
       <S.Date
         status={colorState}

@@ -6,6 +6,8 @@ describe('<CardHabitShort />', () => {
   it('should render the heading', () => {
     renderWithTheme(<CardHabitShort />)
 
-    expect(screen.getByRole('heading', { name: 'ew' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /CardHabitShort/i }),
+    ).toBeInTheDocument()
   })
 })
