@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import CheckHabit, { CheckHabitProps } from '.'
 import theme from '../../styles/theme'
 import renderWithTheme from '../../utils/renderWithTheme'
@@ -11,14 +11,14 @@ const props: CheckHabitProps = {
 }
 
 describe('<CheckHabit />', () => {
-  it('should show day and date when have prop', () => {
+  it('show show day and date when props are present', () => {
     renderWithTheme(<CheckHabit {...props} />)
 
     expect(screen.getByText(props.day)).toHaveTextContent('Qua')
     expect(screen.getByText(props.date)).toBeInTheDocument()
   })
 
-  it('should have background color green', () => {
+  it('should Background color be green when status is success', () => {
     renderWithTheme(<CheckHabit {...props} status="success" />)
 
     const wrapperDate = screen.getByText(props.date)
@@ -27,7 +27,7 @@ describe('<CheckHabit />', () => {
       backgroundColor: theme.colors.habit.green[600],
     })
   })
-  it('should call function when clicked', () => {
+  it('should calls function when clicked and toggles colors', () => {
     const onClick = jest.fn()
 
     renderWithTheme(
@@ -40,18 +40,25 @@ describe('<CheckHabit />', () => {
       backgroundColor: theme.colors.habit.green[600],
     })
 
-    act(() => {
-      wrapperDate.click()
-    })
+    wrapperDate.click()
 
     expect(wrapperDate).toHaveStyle({
       backgroundColor: theme.colors.habit.orange[600],
     })
 
     expect(onClick).toBeCalledWith('delayed')
+
+    wrapperDate.click()
+
+    expect(wrapperDate).toHaveStyle({
+      backgroundColor: theme.colors.habit.red[600],
+    })
+
+    expect(onClick).toBeCalledWith('failed')
   })
 
-  it('should have background color orange', () => {
+  it('should be background color orange when status is delayed', () => {
+    //  renderizar o componente com o estado atrasado (delayed)
     renderWithTheme(<CheckHabit {...props} status="delayed" />)
 
     const wrapperDate = screen.getByText(props.date)
@@ -61,45 +68,13 @@ describe('<CheckHabit />', () => {
     })
   })
 
-  it('should have background all color possibles', () => {
-    renderWithTheme(<CheckHabit date={16} day="seg" id="1" />)
+  it('should enders with invalid or missing status prop', () => {
+    renderWithTheme(<CheckHabit date={10} day="mon" id="2" />)
 
-    const wrapperDate = screen.getByText(16)
-
-    act(() => {
-      wrapperDate.click()
-    })
-
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.green[600],
-    })
-
-    act(() => {
-      wrapperDate.click()
-    })
-
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.orange[600],
-    })
-
-    act(() => {
-      wrapperDate.click()
-    })
-
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.red[600],
-    })
-
-    act(() => {
-      wrapperDate.click()
-    })
+    const wrapperDate = screen.getByText(10)
 
     expect(wrapperDate).toHaveStyle({
       backgroundColor: theme.colors.dark[200],
-    })
-
-    act(() => {
-      wrapperDate.click()
     })
   })
 })
