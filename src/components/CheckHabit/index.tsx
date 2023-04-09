@@ -3,7 +3,13 @@ import * as S from './styles'
 
 type Status = S.DateProps['status']
 
+type onClickProps = {
+  id: string
+  currentStatus: Status
+}
+
 export type CheckHabitProps = {
+  id: string
   day: string
   date: number
   status?: Status
@@ -12,12 +18,13 @@ export type CheckHabitProps = {
 
 const statusMap: Record<string, Status> = {
   default: 'success',
-  success: 'waiting',
-  waiting: 'failed',
+  success: 'delayed',
+  delayed: 'failed',
   failed: 'default',
 }
 
 const CheckHabit = ({
+  id,
   day,
   date,
   status = 'default',

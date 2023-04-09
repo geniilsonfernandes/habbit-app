@@ -1,18 +1,20 @@
 import { act, screen } from '@testing-library/react'
-import CheckHabit from '.'
+import CheckHabit, { CheckHabitProps } from '.'
 import theme from '../../styles/theme'
 import renderWithTheme from '../../utils/renderWithTheme'
 
-const props = {
-  day: 'day',
-  date: 2,
+const props: CheckHabitProps = {
+  id: '3',
+  day: 'Qua',
+  date: 16,
+  status: 'delayed',
 }
 
 describe('<CheckHabit />', () => {
   it('should show day and date when have prop', () => {
     renderWithTheme(<CheckHabit {...props} />)
 
-    expect(screen.getByText(props.day)).toHaveTextContent('day')
+    expect(screen.getByText(props.day)).toHaveTextContent('Qua')
     expect(screen.getByText(props.date)).toBeInTheDocument()
   })
 
@@ -46,11 +48,11 @@ describe('<CheckHabit />', () => {
       backgroundColor: theme.colors.habit.orange[600],
     })
 
-    expect(onClick).toBeCalledWith('waiting')
+    expect(onClick).toBeCalledWith('delayed')
   })
 
   it('should have background color orange', () => {
-    renderWithTheme(<CheckHabit {...props} status="waiting" />)
+    renderWithTheme(<CheckHabit {...props} status="delayed" />)
 
     const wrapperDate = screen.getByText(props.date)
 
@@ -60,9 +62,9 @@ describe('<CheckHabit />', () => {
   })
 
   it('should have background all color possibles', () => {
-    renderWithTheme(<CheckHabit {...props} />)
+    renderWithTheme(<CheckHabit date={16} day="seg" id="1" />)
 
-    const wrapperDate = screen.getByText(props.date)
+    const wrapperDate = screen.getByText(16)
 
     act(() => {
       wrapperDate.click()

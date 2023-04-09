@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, css } from 'styled-components'
 
 export type DateProps = {
-  status: 'success' | 'waiting' | 'failed' | 'default'
+  status: 'success' | 'delayed' | 'failed' | 'default'
 }
 
 const DateModifiers = {
@@ -9,7 +9,7 @@ const DateModifiers = {
     background-color: ${theme.colors.habit.green[600]};
     border: 3px solid ${theme.colors.habit.green[500]};
   `,
-  waiting: (theme: DefaultTheme) => css`
+  delayed: (theme: DefaultTheme) => css`
     background-color: ${theme.colors.habit.orange[600]};
     border: 3px solid ${theme.colors.habit.orange[500]};
   `,
