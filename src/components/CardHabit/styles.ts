@@ -30,6 +30,7 @@ export const Main = styled.div`
     padding-top: ${theme.spacings.xsmall};
     display: grid;
     grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
   `}
 `
 export const NoHaveEntries = styled.p`
