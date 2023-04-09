@@ -3,30 +3,48 @@ import HeadLabel from 'components/HeadLabel'
 import * as S from './styles'
 
 export type CardHabitProps = {
-  habbitName?: string
-  intervalTime?: string
-  habbitColor?: string
-  habits?: number[]
+  id: string
+  habitName: string
+  intervalTime: string
+  habbitColor: string
+  habbitLastEightDays?: {
+    id: string
+    day: string
+    date: number
+    status: 'success' | 'delayed' | 'failed' | 'default'
+  }[]
 }
 
 const CardHabit = ({
-  habits,
   intervalTime,
-  habbitName = ' - ',
   habbitColor,
-}: CardHabitProps) => (
-  <S.Wrapper>
-    <S.Header>
-      <HeadLabel title={habbitName} barColor={habbitColor} />
-      {intervalTime && <S.IntervalTime>{intervalTime}</S.IntervalTime>}
-    </S.Header>
-    <S.Main>
-      {habits &&
-        habits.map((item) => (
-          <CheckHabit key={item} day="Seg" date={item} status="success" />
+  habitName,
+  habbitLastEightDays,
+}: CardHabitProps) => {
+  const limitHabitLastEightDays = habbitLastEightDays?.slice(0, 8) || []
+
+  return (
+    <S.Wrapper>
+      <S.Header>
+        <HeadLabel title={habitName} barColor={habbitColor} variant="dark" />
+        {intervalTime && <S.IntervalTime>{intervalTime}</S.IntervalTime>}
+      </S.Header>
+      {habbitLastEightDays?.length === 0 && (
+        <S.NoHaveEntries>Ainda não habitos cadastrados</S.NoHaveEntries>
+      )}
+      <S.Main>
+        {limitHabitLastEightDays.map((item) => (
+          <CheckHabit
+            key={item.id}
+            day={item.day}
+            date={item.date}
+            status={item.status}
+            id={item.id}
+          />
         ))}
-    </S.Main>
-  </S.Wrapper>
-)
+      </S.Main>
+    </S.Wrapper>
+  )
+}
 
 export default CardHabit
