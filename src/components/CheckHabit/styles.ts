@@ -1,7 +1,8 @@
+import { Status } from 'shared/habit/helper/statusMap'
 import styled, { DefaultTheme, css } from 'styled-components'
 
 export type DateProps = {
-  status: 'success' | 'delayed' | 'failed' | 'default'
+  status: Status
 }
 
 const DateModifiers = {

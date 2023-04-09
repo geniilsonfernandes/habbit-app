@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import * as S from './styles'
-
-type Status = S.DateProps['status']
+import { Status, statusMap } from 'shared/habit/helper/statusMap'
 
 export type CheckHabitProps = {
   id: string
@@ -9,13 +8,6 @@ export type CheckHabitProps = {
   date: number
   status?: Status
   onClick?: (currentState: Status) => void
-}
-
-const statusMap: Record<string, Status> = {
-  default: 'success',
-  success: 'delayed',
-  delayed: 'failed',
-  failed: 'default',
 }
 
 const CheckHabit = ({
