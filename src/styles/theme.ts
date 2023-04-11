@@ -20,7 +20,21 @@ export default {
       400: '#222222',
       300: '#303030',
       200: '#454545',
+      100: '#5C5C5C',
     },
+    light: {
+      100: '#F2F2F2',
+      200: '#E5E5E5',
+      300: '#D8D8D8',
+      400: '#CBCBCB',
+      500: '#BEBEBE',
+    },
+
+    primary: {
+      100: '#4447E2',
+      500: '#1E1F73',
+    },
+    primaryGradient: `linear-gradient(138.83deg, #7175df 4.52%, #4f369f 104.14%)`,
   },
   spacings: {
     xxsmall: '0.8rem',
