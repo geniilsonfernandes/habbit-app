@@ -16,10 +16,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "dayjs": "^1.11.7",
     "next": "12.0.9",
     "next-pwa": "^5.4.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-slick": "^0.29.0",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
@@ -37,6 +39,7 @@
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.12",
     "@types/react": "^17.0.38",
+    "@types/react-slick": "^0.23.10",
     "@types/styled-components": "^5.1.21",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
