@@ -20,20 +20,14 @@ describe('<CalendarTab />', () => {
     expect(todayEl.firstElementChild).toHaveTextContent(today.format('ddd'))
   })
 
-  it('should click in the left date the must become active', () => {
-    renderWithTheme(<CalendarTab />)
-
-    const todayEl = screen.getByLabelText(tomorow)
-    todayEl.click()
-    expect(todayEl).toHaveStyle({ background: theme.colors.light[500] })
-  })
-
-  it('should click in today and must return a date', () => {
+  it('should click in the left date the must become active and call function', () => {
     const onClickDate = jest.fn()
     renderWithTheme(<CalendarTab onClickDate={onClickDate} />)
 
-    const todayEl = screen.getByLabelText(todayDate)
+    const todayEl = screen.getByLabelText(tomorow)
     todayEl.click()
+
+    expect(todayEl).toHaveStyle({ background: theme.colors.light[500] })
     expect(onClickDate).toBeCalledTimes(1)
   })
 
