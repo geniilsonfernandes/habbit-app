@@ -1,5 +1,6 @@
-import styled, { DefaultTheme, css } from 'styled-components'
 import { MdCheck } from 'react-icons/md'
+import { HabitStatus } from 'shared/habit/styles'
+import styled, { css } from 'styled-components'
 
 type Props = {
   barColor?: string
@@ -47,27 +48,8 @@ export const ActionIcon = styled(MdCheck)`
   `}
 `
 
-const DateModifiers = {
-  success: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.green[600]};
-    color: ${theme.colors.habit.green[500]};
-  `,
-  delayed: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.orange[600]};
-    color: ${theme.colors.habit.orange[500]};
-  `,
-  failed: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.red[600]};
-    color: ${theme.colors.habit.red[500]};
-  `,
-  default: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.dark[300]};
-    color: ${theme.colors.dark[200]};
-  `,
-}
-
-export const HabitActions = styled.div<HabitActionsProps>`
-  ${({ theme, status }) => css`
+export const HabitActions = styled(HabitStatus)<HabitActionsProps>`
+  ${({ theme }) => css`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,6 +57,6 @@ export const HabitActions = styled.div<HabitActionsProps>`
     height: 40px;
     cursor: pointer;
     border-radius: ${theme.radius.md};
-    ${!!status && DateModifiers[status](theme)};
+    border: none;
   `}
 `

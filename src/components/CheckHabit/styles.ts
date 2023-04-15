@@ -1,27 +1,9 @@
 import { Status } from 'shared/habit/helper/statusMap'
-import styled, { DefaultTheme, css } from 'styled-components'
+import { HabitStatus } from 'shared/habit/styles'
+import styled, { css } from 'styled-components'
 
 export type DateProps = {
   status: Status
-}
-
-const DateModifiers = {
-  success: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.green[600]};
-    border: 3px solid ${theme.colors.habit.green[500]};
-  `,
-  delayed: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.orange[600]};
-    border: 3px solid ${theme.colors.habit.orange[500]};
-  `,
-  failed: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.habit.red[600]};
-    border: 3px solid ${theme.colors.habit.red[500]};
-  `,
-  default: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.dark[200]};
-    border: 3px solid ${theme.colors.dark[400]};
-  `,
 }
 
 export const Wrapper = styled.div`
@@ -39,8 +21,8 @@ export const Day = styled.div`
   `}
 `
 
-export const Date = styled.div<DateProps>`
-  ${({ theme, status }) => css`
+export const Date = styled(HabitStatus)<DateProps>`
+  ${({ theme }) => css`
     user-select: none;
     height: 38px;
     width: 29px;
@@ -54,6 +36,5 @@ export const Date = styled.div<DateProps>`
     &:active {
       transform: scale(0.95);
     }
-    ${!!status && DateModifiers[status](theme)};
   `}
 `

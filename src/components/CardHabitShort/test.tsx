@@ -25,7 +25,7 @@ describe('<CardHabitShort />', () => {
     })
   })
 
-  it('should render habit cart with default props', () => {
+  it('should render habit cart with default color props', () => {
     renderWithTheme(
       <CardHabitShort
         HabitName="HabitName"
@@ -35,7 +35,7 @@ describe('<CardHabitShort />', () => {
     )
 
     expect(screen.getByLabelText('Habit Actions')).toHaveStyle({
-      'background-color': theme.colors.dark[300],
+      'background-color': theme.colors.dark[200],
     })
   })
 
@@ -60,7 +60,7 @@ describe('<CardHabitShort />', () => {
     screen.getByLabelText('Habit Actions').click()
 
     expect(screen.getByLabelText('Habit Actions')).toHaveStyle({
-      'background-color': theme.colors.dark[300],
+      'background-color': theme.colors.dark[200],
     })
   })
 })

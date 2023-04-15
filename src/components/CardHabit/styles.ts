@@ -1,12 +1,8 @@
+import { Card } from 'components/styles'
 import styled, { css } from 'styled-components'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
-    background: ${theme.colors.dark[300]};
-    border-radius: ${theme.radius.md};
-    max-width: 384px;
-    padding: 8px 10px 20px 10px;
-  `}
+export const Wrapper = styled(Card)`
+  max-width: 380px;
 `
 
 export const Header = styled.div`
