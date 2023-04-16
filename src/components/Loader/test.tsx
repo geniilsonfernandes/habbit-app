@@ -9,6 +9,7 @@ describe('<Loader />', () => {
     const loader = screen.getByLabelText(/loading/i)
 
     expect(loader).toBeInTheDocument()
+    expect(loader).toMatchSnapshot()
   })
 
   it('should render the loader with size small', () => {
