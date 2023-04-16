@@ -28,7 +28,7 @@ const InputModifiers = {
 export const Input = styled.input<TextInputProps>`
   ${({ theme, error, success, disabled }) => css`
     background-color: transparent;
-    border: 1px solid ${theme.colors.dark[300]};
+    border: 1px solid ${theme.colors.background[300]};
     border-radius: ${theme.radius.md};
     height: 4.8rem;
 
@@ -41,7 +41,7 @@ export const Input = styled.input<TextInputProps>`
 
     transition: ${theme.transitions.ease_in_out};
     &::placeholder {
-      color: ${theme.colors.text.white[300]};
+      color: ${theme.colors.text[300]};
     }
 
     &:focus {
@@ -52,7 +52,7 @@ export const Input = styled.input<TextInputProps>`
     ${success && InputModifiers.success(theme)}
     ${disabled && InputModifiers.disabled()}
 
-     color: ${theme.colors.text.white[100]};
+     color: ${theme.colors.text[100]};
   `}
 `
 
@@ -60,7 +60,7 @@ export const Label = styled.label`
   ${({ theme }) => css`
     display: block;
     font-size: ${theme.font.sizes.small};
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
     margin-bottom: 0.4rem;
   `}
 `
@@ -73,7 +73,7 @@ export const HelperText = styled.span<TextInputProps>`
     user-select: none;
 
     font-size: ${theme.font.sizes.xsmall};
-    color: ${theme.colors.text.white[300]};
+    color: ${theme.colors.text[300]};
     margin-top: ${theme.spacings.xxsmall};
     transition: ${theme.transitions.ease_in_out};
     ${error && InputModifiers.error(theme)}

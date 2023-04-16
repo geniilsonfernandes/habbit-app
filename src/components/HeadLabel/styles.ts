@@ -26,7 +26,7 @@ export const Label = styled.span<LabelProps>`
     font-size: ${theme.font.sizes.small};
     font-weight: ${theme.font.normal};
     color: ${variant === 'light'
-      ? theme.colors.text.black[100]
-      : theme.colors.text.white[100]};
+      ? theme.colors.text[900]
+      : theme.colors.text[100]};
   `}
 `

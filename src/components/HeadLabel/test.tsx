@@ -26,7 +26,7 @@ describe('<HeadLabel />', () => {
     const heading = screen.getByText('title')
 
     expect(heading).toHaveStyle({
-      color: theme.colors.text.white[100],
+      color: theme.colors.text[100],
     })
   })
 
@@ -36,7 +36,7 @@ describe('<HeadLabel />', () => {
     const heading = screen.getByText('title')
 
     expect(heading).toHaveStyle({
-      color: theme.colors.text.black[100],
+      color: theme.colors.text[900],
     })
   })
 
@@ -46,7 +46,7 @@ describe('<HeadLabel />', () => {
     const heading = screen.getByText('title')
 
     expect(heading).toHaveStyle({
-      color: theme.colors.text.black[100],
+      color: theme.colors.text[900],
     })
   })
 

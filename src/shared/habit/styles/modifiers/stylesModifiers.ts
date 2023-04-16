@@ -14,8 +14,8 @@ const stylesModifiers = {
     border: 3px solid ${theme.colors.habit.red[500]};
   `,
   default: (theme: DefaultTheme) => css`
-    background-color: ${theme.colors.dark[200]};
-    border: 3px solid ${theme.colors.dark[400]};
+    background-color: ${theme.colors.habit.default[600]};
+    border: 3px solid ${theme.colors.habit.default[500]};
   `,
 }
 export { stylesModifiers }

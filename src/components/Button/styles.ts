@@ -48,7 +48,7 @@ export const Wrapper = styled.button.attrs(
       background-color: ${theme.colors.primary[300]};
     }
 
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
 
     display: flex;
     justify-content: center;
@@ -61,15 +61,15 @@ export const Wrapper = styled.button.attrs(
     ${(isDisabled || isLoding) &&
     css`
       cursor: not-allowed;
-      background-color: ${theme.colors.dark[300]};
-      color: ${theme.colors.text.white[300]};
+      background-color: ${theme.colors.background[300]};
+      color: ${theme.colors.text[300]};
 
       &:is(:hover, :focus) {
-        background-color: ${theme.colors.dark[300]};
+        background-color: ${theme.colors.background[300]};
         box-shadow: none;
       }
       &:is(:active) {
-        background-color: ${theme.colors.dark[300]};
+        background-color: ${theme.colors.background[300]};
       }
     `}
   `}

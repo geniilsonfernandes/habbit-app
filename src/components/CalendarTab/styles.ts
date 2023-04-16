@@ -106,10 +106,10 @@ export const SliderWrapper = styled.div`
 
 const DayModifier = {
   today: (theme: DefaultTheme) => css`
-    background: ${theme.colors.primaryGradient};
+    background: ${theme.colors.primary.gradient[100]};
   `,
   isActive: (theme: DefaultTheme) => css`
-    background: ${theme.colors.light[500]};
+    background: ${theme.colors.background[300]};
   `,
 }
 
@@ -124,7 +124,7 @@ export const Date = styled.div<DayProps>`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
     font-size: ${theme.font.sizes.xsmall};
     &:active {
       transform: scale(0.95);
@@ -132,7 +132,7 @@ export const Date = styled.div<DayProps>`
 
     transition: all 0.2s ease-in-out;
 
-    background: ${theme.colors.dark[300]};
+    background: ${theme.colors.background[600]};
     ${isActive && DayModifier.isActive(theme)}
     ${isToday && DayModifier.today(theme)}
   `}
@@ -140,7 +140,7 @@ export const Date = styled.div<DayProps>`
 
 export const DayName = styled.span`
   ${({ theme }) => css`
-    color: ${theme.colors.light[100]};
+    color: ${theme.colors.text[100]};
     font-size: 0.6rem;
   `}
 `
@@ -156,13 +156,13 @@ export const Button = styled.button`
 
 export const ArrowLeft = styled(MdOutlineKeyboardArrowLeft)`
   ${({ theme }) => css`
-    color: ${theme.colors.text.white[300]};
+    color: ${theme.colors.text[300]};
     font-size: ${theme.font.sizes.xxlarge};
   `}
 `
 export const ArrowRight = styled(MdOutlineKeyboardArrowRight)`
   ${({ theme }) => css`
-    color: ${theme.colors.text.white[300]};
+    color: ${theme.colors.text[300]};
     font-size: ${theme.font.sizes.xxlarge};
   `}
 `

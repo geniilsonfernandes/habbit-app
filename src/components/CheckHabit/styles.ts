@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 
 export const Day = styled.div`
   ${({ theme }) => css`
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
     font-size: ${theme.font.sizes.xsmall};
     padding-bottom: ${theme.spacings.xxsmall};
   `}
@@ -31,7 +31,7 @@ export const Date = styled(HabitStatus)<DateProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${theme.colors.text.white[100]};
+    color: #fff;
     font-size: ${theme.font.sizes.xsmall};
     &:active {
       transform: scale(0.95);

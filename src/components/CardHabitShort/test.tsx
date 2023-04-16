@@ -35,7 +35,7 @@ describe('<CardHabitShort />', () => {
     )
 
     expect(screen.getByLabelText('Habit Actions')).toHaveStyle({
-      'background-color': theme.colors.dark[200],
+      'background-color': theme.colors.habit.default[600],
     })
   })
 
@@ -60,7 +60,7 @@ describe('<CardHabitShort />', () => {
     screen.getByLabelText('Habit Actions').click()
 
     expect(screen.getByLabelText('Habit Actions')).toHaveStyle({
-      'background-color': theme.colors.dark[200],
+      'background-color': theme.colors.habit.default[600],
     })
   })
 })

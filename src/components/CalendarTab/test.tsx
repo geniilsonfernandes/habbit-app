@@ -27,7 +27,7 @@ describe('<CalendarTab />', () => {
     const todayEl = screen.getByLabelText(tomorow)
     todayEl.click()
 
-    expect(todayEl).toHaveStyle({ background: theme.colors.light[500] })
+    expect(todayEl).toHaveStyle({ background: theme.colors.background[300] })
     expect(onClickDate).toBeCalledTimes(1)
   })
 

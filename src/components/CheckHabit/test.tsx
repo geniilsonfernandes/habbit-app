@@ -74,7 +74,7 @@ describe('<CheckHabit />', () => {
     const wrapperDate = screen.getByText(10)
 
     expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.dark[200],
+      backgroundColor: theme.colors.habit.default[600],
     })
   })
 })

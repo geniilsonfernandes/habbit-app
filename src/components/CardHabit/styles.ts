@@ -17,7 +17,7 @@ export const IntervalTime = styled.p`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.normal};
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
   `}
 `
 
@@ -33,7 +33,7 @@ export const NoHaveEntries = styled.p`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.normal};
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
     text-align: center;
   `}
 `

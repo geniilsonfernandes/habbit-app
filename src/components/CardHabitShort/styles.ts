@@ -1,3 +1,4 @@
+import { Card } from 'components/styles'
 import { MdCheck } from 'react-icons/md'
 import { HabitStatus } from 'shared/habit/styles'
 import styled, { css } from 'styled-components'
@@ -9,9 +10,8 @@ type HabitActionsProps = {
   status?: 'success' | 'delayed' | 'failed' | 'default'
 }
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(Card)`
   ${({ theme }) => css`
-    background-color: ${theme.colors.dark[400]};
     padding: ${theme.spacings.xxsmall};
     border-radius: ${theme.radius.md};
     display: flex;
@@ -30,14 +30,14 @@ export const HabitName = styled.h1`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.medium};
     font-weight: ${theme.font.normal};
-    color: ${theme.colors.text.white[100]};
+    color: ${theme.colors.text[100]};
   `}
 `
 export const HabitInterval = styled.h3`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.normal};
-    color: ${theme.colors.text.white[300]};
+    color: ${theme.colors.text[300]};
   `}
 `
 
@@ -59,6 +59,6 @@ export const HabitActions = styled(HabitStatus)<HabitActionsProps>`
     border-radius: ${theme.radius.md};
     border: none;
 
-    color: ${theme.colors.light[400]};
+    color: ${theme.colors.text[400]};
   `}
 `
