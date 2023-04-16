@@ -19,10 +19,10 @@ const CardHabit = ({
   intervalTime,
   habbitColor,
   habitName,
-  habbitLastEightDays,
+  habbitLastEightDays = [],
   ...props
 }: CardHabitProps) => {
-  const limitHabitLastEightDays = habbitLastEightDays?.slice(0, 8) || []
+  const limitHabitLastEightDays = habbitLastEightDays?.slice(0, 8)
 
   return (
     <S.Wrapper {...props}>

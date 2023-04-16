@@ -36,7 +36,14 @@ describe('<CardHabit />', () => {
   })
 
   it('should render the message "Ainda não habitos cadastrados" when not have data', () => {
-    renderWithTheme(<CardHabit {...props} habbitLastEightDays={[]} />)
+    renderWithTheme(
+      <CardHabit
+        id={props.id}
+        habitName={props.habitName}
+        intervalTime={props.intervalTime}
+        habbitColor={props.habbitColor}
+      />,
+    )
 
     expect(
       screen.getByText('Ainda não habitos cadastrados'),
