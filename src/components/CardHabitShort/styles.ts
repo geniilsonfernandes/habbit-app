@@ -12,7 +12,7 @@ type HabitActionsProps = {
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.dark[400]};
-    padding: 1rem;
+    padding: ${theme.spacings.xxsmall};
     border-radius: ${theme.radius.md};
     display: flex;
     align-items: center;
@@ -58,5 +58,7 @@ export const HabitActions = styled(HabitStatus)<HabitActionsProps>`
     cursor: pointer;
     border-radius: ${theme.radius.md};
     border: none;
+
+    color: ${theme.colors.light[400]};
   `}
 `
