@@ -1,23 +1,22 @@
 import { Card } from 'components/styles'
+
+import { MdCheck } from 'react-icons/md'
+import { HabitStatus } from 'shared/habit/styles'
 import styled, { css } from 'styled-components'
 
-export const Wrapper = styled(Card)`
-  max-width: 380px;
-`
+type WrapperProps = {
+  orientation: 'horizontal' | 'vertical'
+}
 
-export const Header = styled.div`
-  ${() => css`
-    display: flex;
-    align-items: center;
+type HabitActionsProps = {
+  status?: 'success' | 'delayed' | 'failed' | 'default'
+}
+
+export const Wrapper = styled(Card)<WrapperProps>`
+  ${({ theme, orientation }) => css`
+    display: ${orientation === 'horizontal' ? 'flex' : 'inline-block'};
     justify-content: space-between;
-  `}
-`
-
-export const IntervalTime = styled.p`
-  ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xsmall};
-    font-weight: ${theme.font.normal};
-    color: ${theme.colors.text[100]};
+    padding: ${theme.spacings.xsmall};
   `}
 `
 
@@ -29,11 +28,25 @@ export const Main = styled.div`
     gap: 8px;
   `}
 `
-export const NoHaveEntries = styled.p`
+
+export const ActionIcon = styled(MdCheck)`
   ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xsmall};
-    font-weight: ${theme.font.normal};
-    color: ${theme.colors.text[100]};
-    text-align: center;
+    color: inherit;
+    font-size: ${theme.font.sizes.xlarge};
+  `}
+`
+
+export const HabitActions = styled(HabitStatus)<HabitActionsProps>`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 34px;
+    cursor: pointer;
+    border-radius: ${theme.radius.md};
+    border: none;
+
+    color: ${theme.colors.text[400]};
   `}
 `

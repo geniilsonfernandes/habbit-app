@@ -1,6 +1,8 @@
 import CheckHabit from 'components/CheckHabit'
-import HeadLabel from 'components/HeadLabel'
+import Label from 'components/Label'
 import * as S from './styles'
+import { useState } from 'react'
+import { Status, statusMap } from 'shared/habit/helper/statusMap'
 
 export type CardHabitProps = {
   id: string
@@ -13,6 +15,10 @@ export type CardHabitProps = {
     date: number
     status: 'success' | 'delayed' | 'failed' | 'default'
   }[]
+  status?: Status
+  version?: 'days' | 'today'
+
+  onClick?: () => void
 }
 
 const CardHabit = ({
@@ -20,30 +26,54 @@ const CardHabit = ({
   habbitColor,
   habitName,
   habbitLastEightDays = [],
+  version = 'days',
+  status = 'default',
   ...props
 }: CardHabitProps) => {
   const limitHabitLastEightDays = habbitLastEightDays?.slice(0, 8)
 
+  const [currentState, setCurrentState] = useState<Status>(status)
+
+  const handleClick = (currentState: Status) => {
+    const nextState = statusMap[currentState]
+    setCurrentState(nextState)
+  }
+
   return (
-    <S.Wrapper {...props}>
-      <S.Header>
-        <HeadLabel title={habitName} barColor={habbitColor} variant="dark" />
-        {intervalTime && <S.IntervalTime>{intervalTime}</S.IntervalTime>}
-      </S.Header>
-      {habbitLastEightDays?.length === 0 && (
-        <S.NoHaveEntries>Ainda não habitos cadastrados</S.NoHaveEntries>
+    <S.Wrapper
+      {...props}
+      orientation={version === 'today' ? 'horizontal' : 'vertical'}
+    >
+      <Label
+        title={habitName}
+        description={intervalTime}
+        barColor={habbitColor}
+        orientation={version === 'today' ? 'vertical' : 'horizontal'}
+      />
+
+      {version === 'today' ? (
+        <>
+          <S.HabitActions
+            status={currentState}
+            aria-label="Habit Actions"
+            onClick={() => handleClick(currentState)}
+          >
+            <S.ActionIcon />
+          </S.HabitActions>
+        </>
+      ) : (
+        <S.Main>
+          {limitHabitLastEightDays.map((item) => (
+            <CheckHabit
+              key={item.id}
+              day={item.day}
+              date={item.date}
+              status={item.status}
+              id={item.id}
+            />
+          ))}
+        </S.Main>
       )}
-      <S.Main>
-        {limitHabitLastEightDays.map((item) => (
-          <CheckHabit
-            key={item.id}
-            day={item.day}
-            date={item.date}
-            status={item.status}
-            id={item.id}
-          />
-        ))}
-      </S.Main>
     </S.Wrapper>
   )
 }

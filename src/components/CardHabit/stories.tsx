@@ -66,3 +66,9 @@ export default {
 } as Meta<CardHabitProps>
 
 export const Basic: Story<CardHabitProps> = (args) => <CardHabit {...args} />
+
+export const Today: Story<CardHabitProps> = (args) => <CardHabit {...args} />
+
+Today.args = {
+  version: 'today',
+}

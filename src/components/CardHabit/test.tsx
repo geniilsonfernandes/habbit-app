@@ -15,38 +15,28 @@ jest.mock('components/CheckHabit', () => {
 })
 
 describe('<CardHabit />', () => {
-  it('should render the heading', () => {
-    renderWithTheme(<CardHabit {...props} />)
-
-    expect(screen.getByText(props.habitName)).toBeInTheDocument()
-    expect(screen.getByText(props.intervalTime)).toBeInTheDocument()
-  })
-
   it('should render the eight cards CheckHabit', () => {
     renderWithTheme(<CardHabit {...props} />)
 
     expect(screen.getAllByTestId('Mock CheckHabit')).toHaveLength(8)
   })
 
-  it('should render habit name and interval correctly', () => {
-    renderWithTheme(<CardHabit {...props} />)
+  it('should render card habit days version', () => {
+    renderWithTheme(<CardHabit {...props} version="today" />)
 
-    expect(screen.getByText(props.habitName)).toBeInTheDocument()
-    expect(screen.getByText(props.intervalTime)).toBeInTheDocument()
+    expect(screen.getByLabelText('Habit Actions')).toBeInTheDocument()
+    expect(screen.getByText(MockData.habitName)).toBeInTheDocument()
+    expect(screen.getByText(MockData.intervalTime)).toBeInTheDocument()
+    expect(
+      screen.getByText(MockData.habitName).previousElementSibling,
+    ).toHaveStyle({
+      backgroundColor: MockData.habbitColor,
+    })
   })
 
-  it('should render the message "Ainda não habitos cadastrados" when not have data', () => {
-    renderWithTheme(
-      <CardHabit
-        id={props.id}
-        habitName={props.habitName}
-        intervalTime={props.intervalTime}
-        habbitColor={props.habbitColor}
-      />,
-    )
+  it("should render card habit today version and not render 'Habit Actions'", () => {
+    renderWithTheme(<CardHabit {...props} version="days" />)
 
-    expect(
-      screen.getByText('Ainda não habitos cadastrados'),
-    ).toBeInTheDocument()
+    expect(screen.queryByLabelText('Habit Actions')).not.toBeInTheDocument()
   })
 })
