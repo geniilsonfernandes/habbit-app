@@ -51,7 +51,7 @@ const DARK_THEME = {
     red: { 600: '#662020', 500: '#DD2626' },
     green: { 600: '#22442C', 500: '#43AB65' },
     orange: { 600: '#4B3C1D', 500: '#F0B23A' },
-    default: { 600: '#3A3A3A', 500: '#484848' },
+    default: { 600: '#2C2C2C', 500: '#484848' },
   },
   background: {
     900: '#181818',
@@ -107,6 +107,7 @@ const DARK_THEME = {
     200: '#4B3C1D',
   },
 } as const
+
 const LIGHT_THEME = {
   text: {
     100: '#333333',
