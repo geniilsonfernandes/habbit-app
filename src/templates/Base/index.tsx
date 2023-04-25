@@ -1,6 +1,7 @@
-import Menu from 'components/Head'
+import Head from 'components/Head'
 import * as S from './styles'
 import MenuList from 'components/MenuList'
+import useMediaQuery from 'hook/useMediaQuery'
 
 type BaseProps = {
   children: React.ReactNode
@@ -12,6 +13,8 @@ const user = {
 }
 
 const Base = ({ children }: BaseProps) => {
+  const isMobile = useMediaQuery('(max-width: 768px)')
+
   const handleOpenSidebar = () => {
     console.log('click')
   }
@@ -21,7 +24,7 @@ const Base = ({ children }: BaseProps) => {
       <S.Filter>
         <S.WrapperContent>
           <S.Header>
-            <Menu
+            <Head
               title="Habits"
               user={user}
               menuMobileClick={handleOpenSidebar}
@@ -33,6 +36,11 @@ const Base = ({ children }: BaseProps) => {
             </S.Sidebar>
             <S.Main>{children}</S.Main>
           </S.Content>
+          {isMobile && (
+            <S.MenuMobile>
+              <MenuList isMobile={isMobile} />
+            </S.MenuMobile>
+          )}
         </S.WrapperContent>
       </S.Filter>
     </S.Container>

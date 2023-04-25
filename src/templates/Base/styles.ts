@@ -27,9 +27,10 @@ export const Container = styled.div`
       height: 500px;
       filter: blur(150px);
       background: ${theme.colors.primary.gradient[200]};
-      opacity: 0.2;
+      opacity: 0.4;
       z-index: -1;
     }
+    overflow-x: hidden;
     backdrop-filter: blur(86px);
   `}
 `
@@ -37,6 +38,7 @@ export const Container = styled.div`
 export const Filter = styled.div`
   height: 100%;
   backdrop-filter: blur(86px);
+  position: relative;
 `
 
 export const WrapperContent = styled.div`
@@ -45,6 +47,12 @@ export const WrapperContent = styled.div`
     max-width: ${theme.body.width};
 
     height: 100%;
+    padding: 0 ${theme.spacings.xsmall};
+
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      display: flex;
+      flex-direction: column;
+    }
   `}
 `
 
@@ -57,17 +65,43 @@ export const Header = styled.div`
 `
 
 export const Content = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-gap: 3.2rem;
-  padding: 3.2rem 0 0 0;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 3.2rem;
+    padding: 3.2rem 0 0 0;
+
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      max-height: calc((100vh - 96px));
+      overflow-y: scroll;
+    }
+  `}
+`
+
+export const MenuMobile = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `
 
 export const Sidebar = styled.div`
-  grid-column-start: 1;
-  grid-column-end: 3;
+  ${({ theme }) => css`
+    grid-column-start: 1;
+    grid-column-end: 3;
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      display: none;
+    }
+  `}
 `
+
 export const Main = styled.div`
-  grid-column-start: 3;
-  grid-column-end: 7;
+  ${({ theme }) => css`
+    grid-column-start: 3;
+    grid-column-end: 7;
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      grid-column-start: 1;
+      grid-column-end: 7;
+    }
+  `}
 `
