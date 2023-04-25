@@ -1,5 +1,7 @@
 /* istanbul ignore file */
 
-export default function Home() {
-  return <>habitF</>
+import Home from 'templates/Home'
+
+export default function Index() {
+  return <Home />
 }

@@ -15,6 +15,15 @@ const PROJECT_CONFIG = {
     xlarge: '4.8rem',
     xxlarge: '5.6rem',
   },
+  viewPorts: {
+    mobile: '320px',
+    tablet: '768px',
+    desktop: '1280px',
+    large: '1440px',
+  },
+  body: {
+    width: '592px',
+  },
   radius: {
     md: '8px',
     sm: '4px',
@@ -63,6 +72,17 @@ const DARK_THEME = {
     300: '#8C8C8C',
     200: '#B4B4B4',
     100: '#D2D2D2',
+    transparent: {
+      900: 'rgba(255, 255, 255, 0.1)',
+      800: 'rgba(255, 255, 255, 0.2)',
+      700: 'rgba(255, 255, 255, 0.3)',
+      600: 'rgba(255, 255, 255, 0.4)',
+      500: 'rgba(255, 255, 255, 0.5)',
+      400: 'rgba(255, 255, 255, 0.6)',
+      300: 'rgba(255, 255, 255, 0.7)',
+      200: 'rgba(255, 255, 255, 0.8)',
+      100: 'rgba(255, 255, 255, 0.9)',
+    },
   },
   primary: {
     100: '#7175DF',
