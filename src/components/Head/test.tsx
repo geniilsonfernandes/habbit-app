@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import renderWithTheme from '../../utils/renderWithTheme'
-import Menu from '.'
+import Head from '.'
 import userEvent from '@testing-library/user-event'
 
 jest.mock('hook/useMediaQuery', () => {
@@ -18,9 +18,9 @@ const props = {
   },
 }
 
-describe('<Menu />', () => {
+describe('<Head />', () => {
   it('should render the menu desktop version', () => {
-    renderWithTheme(<Menu {...props} />)
+    renderWithTheme(<Head {...props} />)
 
     const menuTitle = screen.getByRole('heading', { name: 'Habits' })
 
@@ -28,7 +28,7 @@ describe('<Menu />', () => {
   })
 
   it('should render the menu mobile version when we click on menu mobile', async () => {
-    renderWithTheme(<Menu {...props} />)
+    renderWithTheme(<Head {...props} />)
 
     const menuMobile = screen.getByTitle('Menu mobile')
 
@@ -38,7 +38,7 @@ describe('<Menu />', () => {
   })
 
   it("should render the user's name whn click on user ", async () => {
-    renderWithTheme(<Menu {...props} />)
+    renderWithTheme(<Head {...props} />)
 
     const userAvatar = screen.getByAltText('jaca')
 

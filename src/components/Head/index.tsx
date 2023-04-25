@@ -2,7 +2,7 @@ import UserAvatar from 'components/UserAvatar'
 import * as S from './styles'
 import useMediaQuery from 'hook/useMediaQuery'
 
-type MenuProps = {
+export type HeadProps = {
   menuMobileClick: () => void
   title: string
   user: {
@@ -10,7 +10,7 @@ type MenuProps = {
     img: string
   }
 }
-const Menu = ({ menuMobileClick, title, user }: MenuProps) => {
+const Head = ({ menuMobileClick, title, user }: HeadProps) => {
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   const handleAvatarClick = () => {
@@ -36,4 +36,4 @@ const Menu = ({ menuMobileClick, title, user }: MenuProps) => {
   )
 }
 
-export default Menu
+export default Head
