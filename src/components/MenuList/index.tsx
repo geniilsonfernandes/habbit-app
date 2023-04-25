@@ -17,7 +17,7 @@ const list = [
     key: 'habits',
   },
 ]
-type MenuListProps = {
+export type MenuListProps = {
   isMobile?: boolean
 }
 

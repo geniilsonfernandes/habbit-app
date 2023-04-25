@@ -1,10 +1,13 @@
 import { Story, Meta } from '@storybook/react'
 
-import MenuList from '.'
+import MenuList, { MenuListProps } from '.'
 
 export default {
   component: MenuList,
   title: 'MenuList',
-} as Meta
+  args: {
+    isMobile: false,
+  },
+} as Meta<MenuListProps>
 
-export const Basic: Story = () => <MenuList />
+export const Basic: Story<MenuListProps> = (args) => <MenuList {...args} />
