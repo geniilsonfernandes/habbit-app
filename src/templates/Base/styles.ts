@@ -1,3 +1,4 @@
+import Button from 'components/Button'
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
@@ -103,5 +104,17 @@ export const Main = styled.div`
       grid-column-start: 1;
       grid-column-end: 7;
     }
+  `}
+`
+
+export const ButtonAdd = styled(Button).attrs({
+  size: 'small',
+})`
+  ${({ theme }) => css`
+    position: fixed;
+    bottom: 32px;
+    right: 24vw;
+
+    background: ${theme.colors.primary[100]};
   `}
 `
