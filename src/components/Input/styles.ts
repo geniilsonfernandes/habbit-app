@@ -6,7 +6,12 @@ export type TextInputProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export const Wrapper = styled.div`
-  position: relative;
+  ${({ theme }) => css`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.spacings.xxsmall};
+  `}
 `
 
 const InputModifiers = {
@@ -28,7 +33,7 @@ const InputModifiers = {
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  height: 4.8rem;
+  height: 4.8rem; ;
 `
 
 export const Input = styled.input<TextInputProps>`
@@ -67,7 +72,6 @@ export const LabelWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
 `
 
 export const Label = styled.label`
@@ -115,14 +119,10 @@ export const EyeIconClose = styled(AiFillEyeInvisible)`
 
 export const HelperText = styled.span<TextInputProps>`
   ${({ theme, error, success }) => css`
-    position: absolute;
-    left: 0;
-    bottom: -20px;
     user-select: none;
 
     font-size: ${theme.font.sizes.xsmall};
     color: ${theme.colors.text[300]};
-    margin-top: ${theme.spacings.xxsmall};
     transition: ${theme.transitions.ease_in_out};
     ${error && InputModifiers.error(theme)}
     ${success && InputModifiers.success(theme)}

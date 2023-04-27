@@ -1,19 +1,19 @@
 import { useState } from 'react'
 import * as S from './styles'
 
-export type TextInputProps = {
+export type InputProps = {
   helperText?: string
   label?: string
   onRecoveryPassword?: () => void
 } & S.TextInputProps
 
-const TextInput = ({
+const Input = ({
   helperText,
   success,
   error,
   onRecoveryPassword,
   ...props
-}: TextInputProps) => {
+}: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
   function handleShowPassword() {
@@ -67,4 +67,4 @@ const TextInput = ({
   )
 }
 
-export default TextInput
+export default Input

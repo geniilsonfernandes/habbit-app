@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react'
 
-import Input, { TextInputProps } from '.'
+import Input, { InputProps } from '.'
 
 export default {
   component: Input,
@@ -14,24 +14,24 @@ export default {
     disabled: false,
     id: 'input',
   },
-} as Meta<TextInputProps>
+} as Meta<InputProps>
 
-export const Default: Story<TextInputProps> = (args) => <Input {...args} />
+export const Default: Story<InputProps> = (args) => <Input {...args} />
 
-export const Error: Story<TextInputProps> = (args) => <Input {...args} />
+export const Error: Story<InputProps> = (args) => <Input {...args} />
 
 Error.args = {
   error: true,
   helperText: 'Error message',
 }
 
-export const WithLabel: Story<TextInputProps> = (args) => <Input {...args} />
+export const WithLabel: Story<InputProps> = (args) => <Input {...args} />
 
 WithLabel.args = {
   label: 'Label',
 }
 
-export const Password: Story<TextInputProps> = (args) => <Input {...args} />
+export const Password: Story<InputProps> = (args) => <Input {...args} />
 
 Password.args = {
   type: 'password',
@@ -39,7 +39,7 @@ Password.args = {
   helperText: '',
 }
 
-export const onRecoveryPassword: Story<TextInputProps> = (args) => (
+export const onRecoveryPassword: Story<InputProps> = (args) => (
   <Input {...args} />
 )
 
