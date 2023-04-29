@@ -78,7 +78,7 @@ const CreateHabit = () => {
                       icon={item.icon}
                       key={item.id}
                       isActive={item.key === value}
-                      aria-label={`category: ${item.title} `}
+                      aria-label={`category: ${item.title}`}
                       aria-checked={item.key === value}
                     />
                   ))}
