@@ -19,6 +19,10 @@ const GlobalStyles = createGlobalStyle`
   body {
    font-family: 'Rubik', sans-serif;
   }
+
+  .no-scroll{
+    overflow: hidden;
+  }
 `
 
 export default GlobalStyles

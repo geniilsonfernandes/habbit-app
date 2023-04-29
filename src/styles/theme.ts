@@ -96,6 +96,7 @@ const DARK_THEME = {
       300: 'linear-gradient(138.83deg, #9da2f9 4.52%, #7c52d3 104.14%)',
       400: 'linear-gradient(138.83deg, #b4b8ff 4.52%, #925ee7 104.14%)',
       500: 'linear-gradient(138.83deg, #cacdff 4.52%, #a463f0 104.14%)',
+      600: 'linear-gradient(138.83deg,#000000 4.52%, #120e46  104.14%)',
     },
   },
   secondary: {
