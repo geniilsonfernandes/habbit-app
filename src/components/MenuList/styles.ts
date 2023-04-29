@@ -5,11 +5,16 @@ type Props = {
   isMobile?: boolean
 }
 
+type MenuItemProps = {
+  isActived?: boolean
+} & Props
+
 const WrapperModifiers = {
   mobile: (theme: DefaultTheme) => css`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: row;
     gap: 1.6rem;
 
     height: 96px;
@@ -20,7 +25,9 @@ const WrapperModifiers = {
 
 export const Wrapper = styled.div<Props>`
   ${({ theme, isMobile }) => css`
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     ${isMobile && WrapperModifiers.mobile(theme)}
   `}
 `
@@ -31,10 +38,19 @@ const MenuModifiers = {
     align-items: center;
     justify-content: center;
   `,
+  isActive: (theme: DefaultTheme) => css`
+    color: ${theme.colors.text[100]};
+    background: ${theme.colors.primary[100]};
+
+    &:hover {
+      color: ${theme.colors.text[100]};
+      background: ${theme.colors.primary[200]};
+    }
+  `,
 }
 
-export const MenuItem = styled.div<Props>`
-  ${({ theme, isMobile }) => css`
+export const MenuItem = styled.div<MenuItemProps>`
+  ${({ theme, isMobile, isActived }) => css`
     display: flex;
     align-items: center;
     gap: 0.8rem;
@@ -49,6 +65,7 @@ export const MenuItem = styled.div<Props>`
     }
 
     ${isMobile && MenuModifiers.mobile}
+    ${isActived && MenuModifiers.isActive(theme)}
   `}
 `
 const iconCSS = (theme: DefaultTheme) => css`

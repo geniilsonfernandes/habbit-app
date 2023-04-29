@@ -2,19 +2,19 @@ import * as S from './styles'
 
 const list = [
   {
+    title: 'Habits',
+    icon: 'habits',
+    key: 'home',
+  },
+  {
     title: 'Today',
     icon: 'home',
-    key: 'home',
+    key: 'today',
   },
   {
     title: 'Categories',
     icon: 'category',
     key: 'categories',
-  },
-  {
-    title: 'Habits',
-    icon: 'habits',
-    key: 'habits',
   },
 ]
 export type MenuListProps = {
@@ -28,7 +28,12 @@ const MenuList = ({ isMobile = false }: MenuListProps) => {
       aria-label={`menu list: ${isMobile ? 'mobile' : 'desktop'}`}
     >
       {list.map((item) => (
-        <S.MenuItem key={item.key} isMobile={isMobile} aria-label={item.title}>
+        <S.MenuItem
+          key={item.key}
+          isMobile={isMobile}
+          aria-label={item.title}
+          isActived={item.key === 'home'}
+        >
           {item.icon === 'home' && <S.HomeIcon />}
           {item.icon === 'category' && <S.CategoryIcon />}
           {item.icon === 'habits' && <S.habitIcon />}
