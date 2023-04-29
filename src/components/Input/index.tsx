@@ -44,7 +44,11 @@ const Input = ({
           success={success}
           {...props}
           type={
-            props.type === 'password' && !showPassword ? 'password' : 'text'
+            props.type === 'password'
+              ? !showPassword
+                ? 'password'
+                : 'text'
+              : props.type
           }
         />
 

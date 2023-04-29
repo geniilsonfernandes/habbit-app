@@ -129,7 +129,12 @@ const CreateHabit = ({ goBack }: CreateHabitProps) => {
           )}
         </S.FormItem>
       </S.Form>
-      <Button width="full" size="medium" onClick={handleSubmit(onCreateHabit)}>
+      <Button
+        width="full"
+        size="medium"
+        isDisabled={Object.keys(errors).length > 0}
+        onClick={handleSubmit(onCreateHabit)}
+      >
         Create habit
       </Button>
     </S.Wrapper>
