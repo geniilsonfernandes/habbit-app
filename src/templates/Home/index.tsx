@@ -1,9 +1,6 @@
-import React from 'react'
+import CardHabit, { CardHabitProps } from 'components/CardHabit'
 import Base from 'templates/Base'
 import * as S from './styles'
-import CardHabit from 'components/CardHabit'
-import { CardHabitProps } from 'components/CardHabit'
-import CreateHabit from 'components/CreateHabit'
 
 const data = Array.from({ length: 10 }, (_, index) => ({
   id: index.toString(),
@@ -28,7 +25,6 @@ const Home = () => {
         {data.map((item) => (
           <CardHabit key={item.id} {...item} />
         ))}
-        <CreateHabit />
       </S.Habits>
     </Base>
   )
