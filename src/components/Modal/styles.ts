@@ -40,11 +40,34 @@ export const ModalOverlayer = styled.div`
   ${intoOpacity}
 `
 
-export const Content = styled.div`
-  z-index: 10;
+export type ModalContentProps = {
+  size?: 'small' | 'medium' | 'large'
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  ${intoOpacity}
+const ContentModifiers = {
+  small: () => css`
+    width: 375px;
+    height: 667px;
+  `,
+  medium: () => css`
+    width: 768px;
+    height: 80vh;
+  `,
+  large: () => css`
+    width: 90vw;
+    height: 90vh;
+  `,
+}
+
+export const Content = styled.div<ModalContentProps>`
+  ${({ size = 'small' }) => css`
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ${intoOpacity}
+
+    ${ContentModifiers[size]()}
+  `}
 `

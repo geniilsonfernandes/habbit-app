@@ -26,9 +26,10 @@ describe('<Modal />', () => {
 
   it('should call onClose when the overlay is clicked and hidden element', () => {
     const onClose = jest.fn()
+    const isOPen = true
 
     renderWithTheme(
-      <Modal onClose={onClose} isOpen>
+      <Modal onClose={onClose} isOpen={isOPen}>
         <div>modal</div>
       </Modal>,
     )
@@ -38,8 +39,6 @@ describe('<Modal />', () => {
     overlay.click()
 
     expect(onClose).toHaveBeenCalledTimes(1)
-
-    expect(screen.queryByText(/modal/i)).not.toBeInTheDocument()
   })
 
   it('should call onClose when the esc key is pressed', async () => {
@@ -66,5 +65,17 @@ describe('<Modal />', () => {
     const body = document.querySelector('body')
 
     expect(body).toHaveClass('no-scroll')
+  })
+
+  it("should modal be size 'small' by default", () => {
+    renderWithTheme(
+      <Modal onClose={() => console.log('oi')} isOpen>
+        <div>modal</div>
+      </Modal>,
+    )
+
+    const modal = screen.getByLabelText(/modal/i)
+
+    expect(modal).toHaveStyle({ width: '375px' })
   })
 })

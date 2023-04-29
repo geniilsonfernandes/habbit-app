@@ -5,9 +5,9 @@ export type ModalProps = {
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
-}
+} & S.ModalContentProps
 
-const Modal = ({ children, isOpen, onClose }: ModalProps) => {
+const Modal = ({ children, isOpen, onClose, size }: ModalProps) => {
   const [topHeight, setTopHeight] = useState(0)
 
   useEffect(() => {
@@ -39,7 +39,9 @@ const Modal = ({ children, isOpen, onClose }: ModalProps) => {
       {isOpen && (
         <S.Modal height={topHeight} isOpen={isOpen}>
           <S.ModalOverlayer onClick={onClose} aria-label="overlay" />
-          <S.Content>{children}</S.Content>
+          <S.Content aria-label="modal" size={size}>
+            {children}
+          </S.Content>
         </S.Modal>
       )}
     </>
