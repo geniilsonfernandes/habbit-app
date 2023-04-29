@@ -78,4 +78,28 @@ describe('<Modal />', () => {
 
     expect(modal).toHaveStyle({ width: '375px' })
   })
+
+  it("should modal be size 'medium'", () => {
+    renderWithTheme(
+      <Modal onClose={() => console.log('oi')} isOpen size="medium">
+        <div>modal</div>
+      </Modal>,
+    )
+
+    const modal = screen.getByLabelText(/modal/i)
+
+    expect(modal).toHaveStyle({ width: '768px' })
+  })
+
+  it("should modal be size 'large'", () => {
+    renderWithTheme(
+      <Modal onClose={() => console.log('oi')} isOpen size="large">
+        <div>modal</div>
+      </Modal>,
+    )
+
+    const modal = screen.getByLabelText(/modal/i)
+
+    expect(modal).toHaveStyle({ width: '90vw' })
+  })
 })
