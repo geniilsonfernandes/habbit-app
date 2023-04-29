@@ -1,9 +1,18 @@
 import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    background: ${theme.colors.background[800]};
+    border-radius: ${theme.radius.md};
+    padding: ${theme.spacings.xsmall};
+    padding-top: 0;
+    z-index: 10;
+  `}
 `
 
 export const Form = styled.div`
@@ -62,7 +71,7 @@ export const DayButton = styled.button<DayButtonProps>`
 
     border-radius: ${theme.radius.md};
 
-    background: ${theme.colors.background[800]};
+    background: ${theme.colors.background[700]};
     color: ${theme.colors.text[100]};
     font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.normal};
@@ -74,6 +83,7 @@ export const DayButton = styled.button<DayButtonProps>`
     outline: none;
     border: none;
 
+    z-index: 1;
     &:hover {
       background: ${theme.colors.background[700]};
     }

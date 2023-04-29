@@ -3,9 +3,10 @@ import Input from 'components/Input'
 import * as S from './styles'
 
 import Button from 'components/Button'
-import { useForm, Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import Header from 'components/Header'
 import * as z from 'zod'
 import { categories, days } from './mock'
 
@@ -23,7 +24,10 @@ const schema = z.object({
   }),
 })
 
-const CreateHabit = () => {
+type CreateHabitProps = {
+  goBack: () => void
+}
+const CreateHabit = ({ goBack }: CreateHabitProps) => {
   const {
     control,
     handleSubmit,
@@ -44,6 +48,7 @@ const CreateHabit = () => {
 
   return (
     <S.Wrapper>
+      <Header title="Create habit" goBack={goBack} />
       <S.Form>
         <S.FormItem>
           <Controller
