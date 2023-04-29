@@ -7,39 +7,32 @@ export const Container = styled.div`
     min-height: 100vh;
 
     position: relative;
-    &:before {
-      content: '';
-      position: absolute;
-      display: block;
-      right: 0;
-      width: 500px;
-      height: 500px;
-      filter: blur(150px);
-      background: ${theme.colors.primary.gradient[100]};
-      opacity: 0.6;
+    background: ${theme.colors.primary.gradient[600]};
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      &: before {
+        display: none;
+      }
+      &: after {
+        display: none;
+      }
+
+      background: ${theme.colors.primary.gradient[600]};
     }
-    &:after {
-      content: '';
-      position: absolute;
-      display: block;
-      left: 0;
-      bottom: 0;
-      width: 500px;
-      height: 500px;
-      filter: blur(150px);
-      background: ${theme.colors.primary.gradient[200]};
-      opacity: 0.4;
-      z-index: -1;
-    }
+
     overflow-x: hidden;
     backdrop-filter: blur(86px);
   `}
 `
 
 export const Filter = styled.div`
-  height: 100%;
-  backdrop-filter: blur(86px);
-  position: relative;
+  ${({ theme }) => css`
+    height: 100%;
+    backdrop-filter: blur(86px);
+    position: relative;
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      backdrop-filter: none;
+    }
+  `}
 `
 
 export const WrapperContent = styled.div`
@@ -74,7 +67,6 @@ export const Content = styled.div`
 
     @media (max-width: ${theme.viewPorts.tablet}) {
       max-height: calc((100vh - 96px));
-      overflow-y: scroll;
     }
   `}
 `
@@ -100,9 +92,11 @@ export const Main = styled.div`
   ${({ theme }) => css`
     grid-column-start: 3;
     grid-column-end: 7;
+    padding-bottom: 16px;
     @media (max-width: ${theme.viewPorts.tablet}) {
       grid-column-start: 1;
       grid-column-end: 7;
+      padding-bottom: calc(96px + 16px);
     }
   `}
 `
@@ -113,8 +107,12 @@ export const ButtonAdd = styled(Button).attrs({
   ${({ theme }) => css`
     position: fixed;
     bottom: 32px;
-    right: 24vw;
+    right: 100px;
 
     background: ${theme.colors.primary[100]};
+    @media (max-width: ${theme.viewPorts.tablet}) {
+      right: 32px;
+      bottom: 80px;
+    }
   `}
 `

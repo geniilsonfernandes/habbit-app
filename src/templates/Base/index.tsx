@@ -1,8 +1,11 @@
+import CreateHabit from 'components/CreateHabit'
 import Head from 'components/Head'
-import * as S from './styles'
 import MenuList from 'components/MenuList'
+import Modal from 'components/Modal'
 import useMediaQuery from 'hook/useMediaQuery'
+import useVisibility from 'hook/useVisibility'
 import { FaPlus } from 'react-icons/fa'
+import * as S from './styles'
 
 type BaseProps = {
   children: React.ReactNode
@@ -14,10 +17,15 @@ const user = {
 }
 
 const Base = ({ children }: BaseProps) => {
+  const { isVisible, hide, show } = useVisibility()
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   const handleOpenSidebar = () => {
     console.log('click')
+  }
+
+  const handleCreateHabit = () => {
+    show()
   }
 
   return (
@@ -46,7 +54,21 @@ const Base = ({ children }: BaseProps) => {
           <MenuList isMobile={isMobile} />
         </S.MenuMobile>
       )}
-      <S.ButtonAdd>
+
+      <Modal
+        isOpen={isVisible}
+        onClose={hide}
+        size={isMobile ? 'large' : 'small'}
+      >
+        <>
+          <CreateHabit
+            goBack={() => {
+              hide()
+            }}
+          />
+        </>
+      </Modal>
+      <S.ButtonAdd onClick={handleCreateHabit}>
         <FaPlus />
       </S.ButtonAdd>
     </div>
