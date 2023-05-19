@@ -1,31 +1,53 @@
-import CardHabit, { CardHabitProps } from 'components/CardHabit'
+import CardHabit from 'components/CardHabit'
 import Base from 'templates/Base'
+
 import * as S from './styles'
 
-const data = Array.from({ length: 10 }, (_, index) => ({
-  id: index.toString(),
+import { useQuery } from '@tanstack/react-query'
+import Loader from 'components/Loader'
+import { HabitService, IGetAllHabitsResponse } from 'services/habitService'
 
-  habitName: 'Fazer exercícios',
-  intervalTime: '2 dias por semana',
+type RenderIfProps = {
+  condition: boolean
+  children: React.ReactNode
+}
+const RenderIf = ({ condition, children }: RenderIfProps) => {
+  if (condition) {
+    return <>{children}</>
+  }
 
-  habbitColor: '#4cf268',
-  habbitLastEightDays: Array.from({ length: 8 }, (_, index) => ({
-    id: index.toString(),
-
-    day: 'Seg',
-    date: 14,
-    status: 'success',
-  })),
-})) as CardHabitProps[]
+  return (
+    <S.Loader>
+      <Loader />
+    </S.Loader>
+  )
+}
 
 const Home = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['habit', 'list'],
+    queryFn: HabitService.getAll,
+    select: (data: IGetAllHabitsResponse) => {
+      const mapHabit = data.habit.map((item) => {
+        return {
+          id: item.id,
+          habitName: item.name,
+          intervalTime: item.interval.map((item) => item).join(', '),
+          habbitColor: item.color,
+          progress: item.lastEightDays,
+        }
+      })
+      return mapHabit
+    },
+  })
+
   return (
     <Base>
-      <S.Habits>
-        {data.map((item) => (
-          <CardHabit key={item.id} {...item} />
-        ))}
-      </S.Habits>
+      <RenderIf condition={!!data && !isLoading}>
+        <S.Habits>
+          {data && data.map((item) => <CardHabit key={item.id} {...item} />)}
+        </S.Habits>
+      </RenderIf>
     </Base>
   )
 }
