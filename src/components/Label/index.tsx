@@ -16,7 +16,7 @@ const Label = ({
   <S.Wrapper orientation={orientation}>
     <S.Status color={barColor} aria-label="color" />
     <S.Label>{title}</S.Label>
-    {description && <S.Description>{description}</S.Description>}
+    <div>{description && <S.Description>{description}</S.Description>}</div>
   </S.Wrapper>
 )
 

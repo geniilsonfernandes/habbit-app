@@ -1,10 +1,11 @@
+import Link from 'next/link'
 import * as S from './styles'
 
 const list = [
   {
     title: 'Habits',
     icon: 'habits',
-    key: 'home',
+    key: '/',
   },
   {
     title: 'Today',
@@ -28,17 +29,18 @@ const MenuList = ({ isMobile = false }: MenuListProps) => {
       aria-label={`menu list: ${isMobile ? 'mobile' : 'desktop'}`}
     >
       {list.map((item) => (
-        <S.MenuItem
-          key={item.key}
-          isMobile={isMobile}
-          aria-label={item.title}
-          isActived={item.key === 'home'}
-        >
-          {item.icon === 'home' && <S.HomeIcon />}
-          {item.icon === 'category' && <S.CategoryIcon />}
-          {item.icon === 'habits' && <S.habitIcon />}
-          <S.Title>{item.title}</S.Title>
-        </S.MenuItem>
+        <Link key={item.key} href={item.key}>
+          <S.MenuItem
+            isMobile={isMobile}
+            aria-label={item.title}
+            isActived={item.key === 'home'}
+          >
+            {item.icon === 'home' && <S.HomeIcon />}
+            {item.icon === 'category' && <S.CategoryIcon />}
+            {item.icon === 'habits' && <S.habitIcon />}
+            <S.Title>{item.title}</S.Title>
+          </S.MenuItem>
+        </Link>
       ))}
     </S.Wrapper>
   )

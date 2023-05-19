@@ -1,6 +1,8 @@
 /* istanbul ignore file */
+import { QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { queryClient } from 'services/store/queryClient'
 import { ThemeProvider } from 'styled-components'
 
 import GlobalStyles from 'styles/global'
@@ -8,7 +10,7 @@ import theme from 'styles/theme'
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <Head>
           <title>Habbits </title>
@@ -31,7 +33,7 @@ function App({ Component, pageProps }: AppProps) {
         <GlobalStyles />
         <Component {...pageProps} />
       </ThemeProvider>
-    </>
+    </QueryClientProvider>
   )
 }
 

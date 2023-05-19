@@ -18,6 +18,7 @@ const user = {
 
 const Base = ({ children }: BaseProps) => {
   const { isVisible, hide, show } = useVisibility()
+
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   const handleOpenSidebar = () => {
