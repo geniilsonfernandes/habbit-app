@@ -16,7 +16,11 @@ const CheckHabit = ({
   status = 'default',
   onClick,
 }: CheckHabitProps) => {
-  const handleClickHabitChange = (currentStatus: Status) => {
+  const handleClickHabitChange = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    currentStatus: Status,
+  ) => {
+    event.stopPropagation()
     const nextStatus: Status = statusMap[currentStatus]
 
     onClick && onClick(nextStatus)
@@ -25,7 +29,10 @@ const CheckHabit = ({
   return (
     <S.Wrapper aria-label={`Habit ${id} - ${day} - ${date} - ${status}`}>
       <S.Day>{day}</S.Day>
-      <S.Date status={status} onClick={() => handleClickHabitChange(status)}>
+      <S.Date
+        status={status}
+        onClick={(event) => handleClickHabitChange(event, status)}
+      >
         {date}
       </S.Date>
     </S.Wrapper>

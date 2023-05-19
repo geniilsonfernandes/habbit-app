@@ -17,6 +17,13 @@ export const Wrapper = styled(Card)<WrapperProps>`
     display: ${orientation === 'horizontal' ? 'flex' : 'inline-block'};
     justify-content: space-between;
     padding: ${theme.spacings.xsmall};
+    transition: all 0.2s ease-in-out;
+
+    background-color: ${theme.colors.background.transparent[900]};
+    cursor: pointer;
+    &:hover {
+      background-color: ${theme.colors.background.transparent[800]};
+    }
   `}
 `
 

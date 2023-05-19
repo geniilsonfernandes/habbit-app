@@ -63,8 +63,15 @@ const CardHabit = ({
     })
   }
 
+  const onClick = () => {
+    console.log('click')
+  }
+
   return (
-    <S.Wrapper orientation={version === 'today' ? 'horizontal' : 'vertical'}>
+    <S.Wrapper
+      orientation={version === 'today' ? 'horizontal' : 'vertical'}
+      onClick={onClick}
+    >
       <Label
         title={habitName}
         description={intervalTime}
