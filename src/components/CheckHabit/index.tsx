@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
-import * as S from './styles'
 import { Status, statusMap } from 'shared/habit/helper/statusMap'
+import * as S from './styles'
 
 export type CheckHabitProps = {
   id: string
   day: string
-  date: number
+  date: string
   status?: Status
   onClick?: (currentState: Status) => void
 }
@@ -17,25 +16,16 @@ const CheckHabit = ({
   status = 'default',
   onClick,
 }: CheckHabitProps) => {
-  const [colorState, setColorState] = useState<Status>(status)
-
   const handleClickHabitChange = (currentStatus: Status) => {
     const nextStatus: Status = statusMap[currentStatus]
-    setColorState(nextStatus)
+
     onClick && onClick(nextStatus)
   }
 
-  useEffect(() => {
-    setColorState(status)
-  }, [status])
-
   return (
-    <S.Wrapper aria-label={`Habit ${id} - ${day} - ${date} - ${colorState}`}>
+    <S.Wrapper aria-label={`Habit ${id} - ${day} - ${date} - ${status}`}>
       <S.Day>{day}</S.Day>
-      <S.Date
-        status={colorState}
-        onClick={() => handleClickHabitChange(colorState)}
-      >
+      <S.Date status={status} onClick={() => handleClickHabitChange(status)}>
         {date}
       </S.Date>
     </S.Wrapper>

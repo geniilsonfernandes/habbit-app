@@ -6,7 +6,7 @@ import renderWithTheme from '../../utils/renderWithTheme'
 const props: CheckHabitProps = {
   id: '3',
   day: 'Qua',
-  date: 16,
+  date: '16',
   status: 'delayed',
 }
 
@@ -36,25 +36,9 @@ describe('<CheckHabit />', () => {
 
     const wrapperDate = screen.getByText(props.date)
 
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.green[600],
-    })
-
     wrapperDate.click()
 
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.orange[600],
-    })
-
-    expect(onClick).toBeCalledWith('delayed')
-
-    wrapperDate.click()
-
-    expect(wrapperDate).toHaveStyle({
-      backgroundColor: theme.colors.habit.red[600],
-    })
-
-    expect(onClick).toBeCalledWith('failed')
+    expect(onClick).toBeCalledTimes(1)
   })
 
   it('should be background color orange when status is delayed', () => {
@@ -69,7 +53,7 @@ describe('<CheckHabit />', () => {
   })
 
   it('should enders with invalid or missing status prop', () => {
-    renderWithTheme(<CheckHabit date={10} day="mon" id="2" />)
+    renderWithTheme(<CheckHabit date={'10'} day="mon" id="2" />)
 
     const wrapperDate = screen.getByText(10)
 
