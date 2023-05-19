@@ -1,49 +1,70 @@
+import { useMutation } from '@tanstack/react-query'
 import CheckHabit from 'components/CheckHabit'
 import Label from 'components/Label'
+import { Status } from 'shared/habit/helper/statusMap'
+
+import { HabitService } from 'services/habitService'
+import { queryClient } from 'services/store/queryClient'
 import * as S from './styles'
-import { useState } from 'react'
-import { Status, statusMap } from 'shared/habit/helper/statusMap'
 
 export type CardHabitProps = {
   id: string
   habitName: string
   intervalTime: string
   habbitColor: string
-  habbitLastEightDays?: {
-    id: string
-    day: string
-    date: number
-    status: 'success' | 'delayed' | 'failed' | 'default'
+  progress: {
+    date: Date
+    progress: Status
+    id: string | null
+    date_view: {
+      day: string
+      nm_day: string
+      month: string
+    }
   }[]
-  status?: Status
-  version?: 'days' | 'today'
 
-  onClick?: () => void
+  version?: 'days' | 'today'
+}
+
+type HandleClickProps = {
+  status: Status
+  date: Date
+  day_id?: string | null
 }
 
 const CardHabit = ({
   intervalTime,
   habbitColor,
   habitName,
-  habbitLastEightDays = [],
+  progress,
+  id,
   version = 'days',
-  status = 'default',
-  ...props
 }: CardHabitProps) => {
-  const limitHabitLastEightDays = habbitLastEightDays?.slice(0, 8)
+  const editHabit = useMutation({
+    mutationKey: ['updateHabit'],
+    mutationFn: HabitService.saveProgress,
+    onSettled: () => {
+      queryClient.invalidateQueries(['habit', 'list'])
+    },
+    onError() {
+      queryClient.invalidateQueries(['habit', 'list'])
+    },
+  })
 
-  const [currentState, setCurrentState] = useState<Status>(status)
-
-  const handleClick = (currentState: Status) => {
-    const nextState = statusMap[currentState]
-    setCurrentState(nextState)
+  const handleClick = ({ status, date, day_id }: HandleClickProps) => {
+    editHabit.mutate({
+      user_id: '101',
+      habit_id: id,
+      data: {
+        date: date,
+        progress: status,
+        day_id: day_id ? day_id : null,
+      },
+    })
   }
 
   return (
-    <S.Wrapper
-      {...props}
-      orientation={version === 'today' ? 'horizontal' : 'vertical'}
-    >
+    <S.Wrapper orientation={version === 'today' ? 'horizontal' : 'vertical'}>
       <Label
         title={habitName}
         description={intervalTime}
@@ -54,22 +75,30 @@ const CardHabit = ({
       {version === 'today' ? (
         <>
           <S.HabitActions
-            status={currentState}
+            status={'default'}
             aria-label="Habit Actions"
-            onClick={() => handleClick(currentState)}
+            onClick={() => console.log('click')}
           >
             <S.ActionIcon />
           </S.HabitActions>
         </>
       ) : (
         <S.Main>
-          {limitHabitLastEightDays.map((item) => (
+          {progress.reverse().map((item) => (
+            // muda para ProgressHabit
             <CheckHabit
-              key={item.id}
-              day={item.day}
-              date={item.date}
-              status={item.status}
-              id={item.id}
+              key={item.date.toString()}
+              day={item.date_view.nm_day}
+              date={item.date_view.day}
+              status={item.progress}
+              id={item.date.toString()}
+              onClick={(currentState) =>
+                handleClick({
+                  status: currentState,
+                  day_id: item.id ? item.id : null,
+                  date: item.date,
+                })
+              }
             />
           ))}
         </S.Main>
