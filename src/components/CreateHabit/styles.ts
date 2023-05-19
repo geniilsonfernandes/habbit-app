@@ -14,6 +14,21 @@ export const Wrapper = styled.div`
     z-index: 10;
   `}
 `
+export const SuccessMessage = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacings.xxsmall};
+
+    font-size: ${theme.font.sizes.xsmall};
+    color: ${theme.colors.success[100]};
+  `}
+`
+export const SuccessMessageTitle = styled.span`
+  ${({ theme }) => css`
+    font-weight: ${theme.font.bold};
+  `}
+`
 
 export const Form = styled.div`
   ${({ theme }) => css`
