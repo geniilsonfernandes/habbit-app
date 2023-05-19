@@ -1,20 +1,17 @@
 import CategoryButton from 'components/CategoryButton'
 import Input from 'components/Input'
-
 import * as S from './styles'
-
 import Button from 'components/Button'
 import { Controller, useForm } from 'react-hook-form'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import Header from 'components/Header'
 import * as z from 'zod'
-
 import { useMutation } from '@tanstack/react-query'
-
 import { HabitService } from 'services/habitService'
 import { queryClient } from 'services/store/queryClient'
 import { categories, days } from './mock'
+
+import FeadbackPopUp from 'components/FeadbackPopUp'
 
 type FormValues = {
   habit: string
@@ -75,9 +72,11 @@ const CreateHabit = ({ goBack }: CreateHabitProps) => {
     <S.Wrapper>
       <Header title="Create habit" goBack={goBack} />
       {isSuccess && (
-        <S.SuccessMessage>
-          <S.SuccessMessageTitle>Habit created!</S.SuccessMessageTitle>
-        </S.SuccessMessage>
+        <FeadbackPopUp
+          message="Habit created successfully"
+          type="success"
+          onClose={goBack}
+        />
       )}
 
       {!isSuccess && (
