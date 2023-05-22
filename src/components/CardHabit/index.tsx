@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import CheckHabit from 'components/CheckHabit'
 import Label from 'components/Label'
-import { Status } from 'shared/habit/helper/statusMap'
+import { Status, statusMap } from 'shared/habit/helper/statusMap'
 
 import { HabitService } from 'services/habitService'
 import { queryClient } from 'services/store/queryClient'
@@ -27,7 +27,7 @@ export type CardHabitProps = {
 
   onClick?: () => void
 
-  today?: {
+  today: {
     id?: string | null
     date: Date
     status: Status
@@ -79,19 +79,19 @@ const CardHabit = ({
     onClick && onClick()
   }
 
-  // const todayToggleProgress = ({ status, date, day_id }: HandleClickProps) => {
-  //   const nextStatus: Status = statusMap[status]
+  const todayToggleProgress = ({ status, date, day_id }: HandleClickProps) => {
+    const nextStatus: Status = statusMap[status]
 
-  //   editHabit.mutate({
-  //     user_id: '101',
-  //     habit_id: id,
-  //     data: {
-  //       date: date,
-  //       progress: nextStatus,
-  //       day_id: day_id ? day_id : null,
-  //     },
-  //   })
-  // }
+    editHabit.mutate({
+      user_id: '101',
+      habit_id: id,
+      data: {
+        date: date,
+        progress: nextStatus,
+        day_id: day_id ? day_id : null,
+      },
+    })
+  }
 
   return (
     <S.Wrapper
@@ -110,6 +110,13 @@ const CardHabit = ({
           <S.HabitActions
             status={today?.status || 'default'}
             aria-label="Habit Actions"
+            onClick={() => {
+              todayToggleProgress({
+                status: today?.status || 'default',
+                date: today.date,
+                day_id: today?.id || null,
+              })
+            }}
           >
             <S.ActionIcon />
           </S.HabitActions>

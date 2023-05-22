@@ -1,7 +1,7 @@
 import CalendarTab from 'components/CalendarTab'
 import CardHabit from 'components/CardHabit'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Base from 'templates/Base'
 
 import { useQuery } from '@tanstack/react-query'
@@ -10,30 +10,25 @@ import * as S from './styles'
 
 const Today = () => {
   const [date, setDate] = useState(dayjs().toDate())
-  const { data, isLoading } = useQuery(
-    ['habit_date', date.toDateString()],
-    () => HabitService.getByDate(date),
-    {
-      enabled: !!date,
-    },
-  )
+  const [habit, setHabit] = useState([])
 
-  const handleToggleDate = (date: Date) => {
-    setDate(dayjs(date).toDate())
-  }
-
-  console.log(data)
+  useEffect(() => {
+    const getHabit = async () => {
+      const data = await HabitService.getByDate(date)
+      setHabit(data)
+    }
+    getHabit()
+  }, [date])
 
   return (
-    <Base isLoading={isLoading}>
+    <Base>
       <S.Wrapper>
         <S.Calendar aria-label={'Calendário de hábitos'} aria-hidden={false}>
-          <CalendarTab onClickDate={(date) => handleToggleDate(date)} />
+          <CalendarTab onClickDate={(date) => setDate(date)} />
         </S.Calendar>
         <S.HabitList>
-          {data &&
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data.map((item: any) => (
+          {habit &&
+            habit.map((item: any) => (
               <CardHabit
                 key={item.id}
                 id={item.id}

@@ -17,7 +17,7 @@ const CalendarTab = ({ onClickDate }: CalendarTabProps) => {
   const settings: Settings = {
     slidesToShow: 9,
     slidesToScroll: 3,
-    infinite: false,
+    infinite: true,
     centerPadding: '40px',
     arrows: false,
   }
@@ -36,8 +36,10 @@ const CalendarTab = ({ onClickDate }: CalendarTabProps) => {
   }
 
   useEffect(() => {
-    sliderRef.current?.slickGoTo(rangeperiod - 4)
-  }, [])
+    if (!activeDate) {
+      sliderRef.current?.slickGoTo(rangeperiod - 4)
+    }
+  }, [activeDate])
 
   return (
     <S.Wrapper>
