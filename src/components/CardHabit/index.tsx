@@ -80,6 +80,8 @@ const CardHabit = ({
   }
 
   const todayToggleProgress = ({ status, date, day_id }: HandleClickProps) => {
+    console.log({ status, date, day_id })
+
     const nextStatus: Status = statusMap[status]
 
     editHabit.mutate({
