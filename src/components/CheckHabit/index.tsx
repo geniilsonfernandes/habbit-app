@@ -7,6 +7,7 @@ export type CheckHabitProps = {
   date: string
   status?: Status
   onClick?: (currentState: Status) => void
+  clickable?: boolean
 }
 
 const CheckHabit = ({
@@ -15,19 +16,26 @@ const CheckHabit = ({
   date,
   status = 'default',
   onClick,
+  clickable,
 }: CheckHabitProps) => {
   const handleClickHabitChange = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     currentStatus: Status,
   ) => {
     event.stopPropagation()
+
+    if (!clickable) return
+
     const nextStatus: Status = statusMap[currentStatus]
 
     onClick && onClick(nextStatus)
   }
 
   return (
-    <S.Wrapper aria-label={`Habit ${id} - ${day} - ${date} - ${status}`}>
+    <S.Wrapper
+      aria-label={`Habit ${id} - ${day} - ${date} - ${status}`}
+      clickable={clickable}
+    >
       <S.Day>{day}</S.Day>
       <S.Date
         status={status}

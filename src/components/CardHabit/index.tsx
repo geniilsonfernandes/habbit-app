@@ -10,7 +10,7 @@ import * as S from './styles'
 export type CardHabitProps = {
   id: string
   habitName: string
-  intervalTime: string
+  intervalTime: string[]
   habbitColor: string
   progress: {
     date: Date
@@ -24,6 +24,14 @@ export type CardHabitProps = {
   }[]
 
   version?: 'days' | 'today'
+
+  onClick?: () => void
+
+  today?: {
+    id?: string | null
+    date: Date
+    status: Status
+  }
 }
 
 type HandleClickProps = {
@@ -39,19 +47,23 @@ const CardHabit = ({
   progress,
   id,
   version = 'days',
+  onClick,
+  today,
 }: CardHabitProps) => {
   const editHabit = useMutation({
     mutationKey: ['updateHabit'],
     mutationFn: HabitService.saveProgress,
     onSettled: () => {
       queryClient.invalidateQueries(['habit', 'list'])
+      queryClient.invalidateQueries(['habit_unique'])
     },
     onError() {
+      queryClient.invalidateQueries(['habit_unique'])
       queryClient.invalidateQueries(['habit', 'list'])
     },
   })
 
-  const handleClick = ({ status, date, day_id }: HandleClickProps) => {
+  const handleToggleProgress = ({ status, date, day_id }: HandleClickProps) => {
     editHabit.mutate({
       user_id: '101',
       habit_id: id,
@@ -63,18 +75,32 @@ const CardHabit = ({
     })
   }
 
-  const onClick = () => {
-    console.log('click')
+  const handleClick = () => {
+    onClick && onClick()
   }
+
+  // const todayToggleProgress = ({ status, date, day_id }: HandleClickProps) => {
+  //   const nextStatus: Status = statusMap[status]
+
+  //   editHabit.mutate({
+  //     user_id: '101',
+  //     habit_id: id,
+  //     data: {
+  //       date: date,
+  //       progress: nextStatus,
+  //       day_id: day_id ? day_id : null,
+  //     },
+  //   })
+  // }
 
   return (
     <S.Wrapper
       orientation={version === 'today' ? 'horizontal' : 'vertical'}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <Label
         title={habitName}
-        description={intervalTime}
+        description={intervalTime.join(', ')}
         barColor={habbitColor}
         orientation={version === 'today' ? 'vertical' : 'horizontal'}
       />
@@ -82,25 +108,31 @@ const CardHabit = ({
       {version === 'today' ? (
         <>
           <S.HabitActions
-            status={'default'}
+            status={today?.status || 'default'}
             aria-label="Habit Actions"
-            onClick={() => console.log('click')}
           >
             <S.ActionIcon />
           </S.HabitActions>
         </>
       ) : (
-        <S.Main>
-          {progress.reverse().map((item) => (
+        <S.Main
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+        >
+          {progress.map((item) => (
             // muda para ProgressHabit
             <CheckHabit
               key={item.date.toString()}
               day={item.date_view.nm_day}
               date={item.date_view.day}
               status={item.progress}
+              clickable={intervalTime.includes(
+                item.date_view.nm_day.toUpperCase(),
+              )}
               id={item.date.toString()}
               onClick={(currentState) =>
-                handleClick({
+                handleToggleProgress({
                   status: currentState,
                   day_id: item.id ? item.id : null,
                   date: item.date,

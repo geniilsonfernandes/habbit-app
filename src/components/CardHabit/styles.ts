@@ -29,7 +29,7 @@ export const Wrapper = styled(Card)<WrapperProps>`
 
 export const Main = styled.div`
   ${({ theme }) => css`
-    padding-top: ${theme.spacings.xsmall};
+    margin-top: ${theme.spacings.xsmall};
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 8px;

@@ -16,6 +16,7 @@ class Habit {
   interval: string[]
   user_id: string
   created_at: Date
+  deleted_at?: Date
 
   constructor({
     habit: name,

@@ -27,6 +27,8 @@ type HabitCreatePayload = {
   frequency: string[]
   color: string
   user_id: string
+
+  id?: string
 }
 
 export interface IGetAllHabitsResponse {
@@ -51,24 +53,94 @@ export interface IGetAllHabitsResponse {
     created_at: Date
   }[]
 }
+export interface IGetHabitResponse {
+  progress: HabitRecord[]
+  months: Array<HabitRecord[]>
+  id: string
+  name: string
+  category: string | null
+  color: string
+  interval: string[]
+  user_id: string
+  created_at: Date
+}
 
 const user_id = '101'
 
 class HabitService {
-  static async create(habit: HabitCreatePayload): Promise<void> {
-    const newHabit = new Habit(habit)
+  static async create(data: HabitCreatePayload): Promise<void> {
+    if (data.id) {
+      const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
+
+      console.log(data)
+
+      const newHabit = storageHabit.map((habit) => {
+        if (habit.id === data.id) {
+          return {
+            ...habit,
+            category: data.category,
+            color: data.color,
+            interval: data.frequency,
+            name: data.habit,
+          }
+        }
+        return habit
+      })
+
+      storage.update(KEYS.HABITS, newHabit)
+      return
+    }
+
+    const newHabit = new Habit(data)
     storage.save(KEYS.HABITS, newHabit)
   }
 
-  static async getAll(): Promise<IGetAllHabitsResponse> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static async getByDate(date: Date): Promise<any> {
     const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-    const progress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
+    const storageProgress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
 
     const filterByUser = storageHabit.filter(
       (habit) => habit.user_id === user_id,
     )
 
-    const filterProgressByUser = progress.filter(
+    const filterProgressByUser = storageProgress.filter(
+      (progress) => progress.user_id === user_id,
+    )
+    const day = dayjs(date)
+
+    const filterByDate = filterByUser.map((habit) => {
+      const finderProgress = filterProgressByUser.find(
+        (progress) =>
+          dayjs(progress.date).isSame(day, 'day') &&
+          progress.habit_id === habit.id,
+      )
+
+      return {
+        ...habit,
+        date: day.toDate(),
+        progress_day: finderProgress || {
+          id: null,
+          habit_id: habit.id,
+          user_id: user_id,
+          date: day.toDate(),
+          progress: 'default',
+        },
+      }
+    })
+
+    return filterByDate
+  }
+
+  static async getAll(): Promise<IGetAllHabitsResponse> {
+    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
+    const storageProgress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
+
+    const filterByUser = storageHabit.filter(
+      (habit) => habit.user_id === user_id,
+    )
+
+    const filterProgressByUser = storageProgress.filter(
       (progress) => progress.user_id === user_id,
     )
 
@@ -102,12 +174,41 @@ class HabitService {
       return {
         ...habit,
         progress: finderAllProgress.map((progress) => progress.id),
-        lastEightDays: lastEightDays(finderAllProgress),
+        lastEightDays: lastEightDays(finderAllProgress).reverse(),
       }
     })
 
     return {
       habit: createHabitWithProgress,
+    }
+  }
+
+  static async get(id: string): Promise<IGetHabitResponse> {
+    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
+    const progress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
+    const findHabit = storageHabit.find((habit) => habit.id === id)
+    if (!findHabit) {
+      throw new Error('Habit not found')
+    }
+
+    const filterProgressByUser = progress.filter(
+      (progress) => progress.user_id === user_id && progress.habit_id === id,
+    )
+
+    const filterByMonth: Array<HabitRecord[]> = Array.from(
+      { length: 12 },
+      () => [],
+    )
+
+    filterProgressByUser.forEach((progress) => {
+      const month = dayjs(progress.date).month()
+      filterByMonth[month].push(progress)
+    })
+
+    return {
+      ...findHabit,
+      progress: filterProgressByUser,
+      months: filterByMonth,
     }
   }
 
@@ -150,7 +251,11 @@ class HabitService {
   }
 
   static async delete(id: string): Promise<void> {
-    storage.delete('habits', id)
+    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
+
+    const newHabit = storageHabit.filter((habit) => habit.id !== id)
+
+    storage.update(KEYS.HABITS, newHabit)
   }
 }
 

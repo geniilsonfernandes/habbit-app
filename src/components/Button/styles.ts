@@ -4,6 +4,8 @@ import styled, { css } from 'styled-components'
 export type ButtonProps = {
   size?: 'small' | 'medium' | 'large'
   width?: 'full' | 'auto'
+
+  color?: 'primary' | 'danger'
   isDisabled?: boolean
   isLoding?: boolean
 }
@@ -25,9 +27,16 @@ export const Wrapper = styled.button.attrs(
     disabled: isLoding || isDisabled,
   }),
 )<ButtonProps>`
-  ${({ theme, size = 'small', width = 'auto', isDisabled, isLoding }) => css`
+  ${({
+    theme,
+    size = 'small',
+    width = 'auto',
+    isDisabled,
+    isLoding,
+    color = 'primary',
+  }) => css`
     position: relative;
-    background-color: ${theme.colors.primary[100]};
+    background-color: ${theme.colors[color][100]};
 
     font-family: ${theme.font.family};
     font-size: ${theme.font.sizes.small};
@@ -41,11 +50,11 @@ export const Wrapper = styled.button.attrs(
     transition: ${theme.transitions.bounce};
 
     &:is(:hover, :focus) {
-      background-color: ${theme.colors.primary[200]};
-      box-shadow: 0 0 0 0.2rem ${theme.colors.primary[300]};
+      background-color: ${theme.colors[color][200]};
+      box-shadow: 0 0 0 0.2rem ${theme.colors[color][300]};
     }
     &:is(:active) {
-      background-color: ${theme.colors.primary[300]};
+      background-color: ${theme.colors[color][300]};
     }
 
     color: ${theme.colors.text[100]};

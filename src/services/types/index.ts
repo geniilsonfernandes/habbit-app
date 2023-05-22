@@ -1,1 +1,3 @@
-export type HabitStatus = 'success' | 'delayed' | 'failed' | 'default'
+import { Status } from 'shared/habit/helper/statusMap'
+
+export type HabitStatus = Status

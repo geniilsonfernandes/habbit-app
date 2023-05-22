@@ -11,12 +11,37 @@ import { HabitService } from 'services/habitService'
 import { queryClient } from 'services/store/queryClient'
 import { categories, days } from './mock'
 
-import FeadbackPopUp from 'components/FeadbackPopUp'
+import FeadbackPopUp, { FeadbackPopUpProps } from 'components/FeadbackPopUp'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type FormValues = {
   habit: string
   category: string | null
   frequency: string[]
+}
+
+const habitMessage = {
+  create: {
+    sucess: 'Habit created successfully',
+    error: 'Error creating habit',
+    loading: 'Creating habit...',
+    button: 'Create habit',
+    title: 'Create habit',
+  },
+  edit: {
+    sucess: 'Habit edited successfully',
+    error: 'Error editing habit',
+    loading: 'Editing habit...',
+    button: 'Edit habit',
+    title: 'Edit habit',
+  },
+  delete: {
+    sucess: 'Habit deleted successfully',
+    error: 'Error deleting habit',
+    loading: 'Deleting habit...',
+    button: 'Delete habit',
+  },
 }
 
 const schema = z.object({
@@ -29,18 +54,62 @@ const schema = z.object({
 
 type CreateHabitProps = {
   goBack: () => void
+  isEdit?: boolean
+  id?: string
+  defaultValues?: FormValues
 }
-const CreateHabit = ({ goBack }: CreateHabitProps) => {
-  const {
-    mutate: createHabit,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useMutation({
+
+type FeadbackPopUp = {
+  open: boolean
+  message: string
+  type: FeadbackPopUpProps['type']
+  mode: 'create' | 'edit' | 'delete'
+}
+
+const CreateHabit = ({
+  goBack,
+  isEdit,
+  id,
+  defaultValues,
+}: CreateHabitProps) => {
+  const [feadbackPopUp, setFeadbackPopUp] = useState<FeadbackPopUp>({
+    open: false,
+    message: '',
+    type: 'success',
+    mode: 'create',
+  })
+
+  const router = useRouter()
+
+  const { mutate: createHabit, isLoading } = useMutation({
     mutationKey: ['createHabit'],
     mutationFn: HabitService.create,
     onSettled: () => {
       queryClient.invalidateQueries(['habit', 'list'])
+      queryClient.invalidateQueries(['habit_unique', id])
+    },
+    onSuccess: () => {
+      setFeadbackPopUp({
+        open: true,
+        message: isEdit ? habitMessage.edit.sucess : habitMessage.create.sucess,
+        type: 'success',
+        mode: isEdit ? 'edit' : 'create',
+      })
+    },
+  })
+  const deleteHabit = useMutation({
+    mutationKey: ['deleteHabit'],
+    mutationFn: HabitService.delete,
+    onSettled: () => {
+      queryClient.invalidateQueries(['habit', 'list'])
+    },
+    onSuccess: () => {
+      setFeadbackPopUp({
+        open: true,
+        message: habitMessage.delete.sucess,
+        type: 'success',
+        mode: 'delete',
+      })
     },
   })
 
@@ -50,36 +119,70 @@ const CreateHabit = ({ goBack }: CreateHabitProps) => {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      habit: '',
-      category: '',
-      frequency: [],
+      habit: defaultValues?.habit,
+      category: defaultValues?.category,
+      frequency: defaultValues?.frequency || [],
     },
     mode: 'onSubmit',
     resolver: zodResolver(schema),
   })
 
   const onCreateHabit = (data: FormValues) => {
+    if (isEdit) {
+      createHabit({
+        habit: data.habit,
+        category: data.category,
+        frequency: data.frequency,
+        color: categories[Number(data.category)].color,
+        user_id: '101',
+        id: id,
+      })
+
+      return
+    }
+
     createHabit({
       habit: data.habit,
       category: data.category,
       frequency: data.frequency,
-      color: 'red',
+      color: categories[Number(data.category)].color,
       user_id: '101',
     })
   }
 
+  const onDeleteHabit = () => {
+    if (id) {
+      deleteHabit.mutate(id)
+    }
+  }
+
   return (
-    <S.Wrapper>
-      <Header title="Create habit" goBack={goBack} />
-      {isSuccess && (
+    <S.Wrapper isEdit={isEdit}>
+      <Header
+        title={isEdit ? habitMessage.edit.title : habitMessage.create.title}
+        goBack={goBack}
+      />
+      {feadbackPopUp.open && (
         <FeadbackPopUp
-          message="Habit created successfully"
-          type="success"
-          onClose={goBack}
+          message={feadbackPopUp.message}
+          type={feadbackPopUp.type}
+          onClose={() => {
+            if (feadbackPopUp.mode === 'delete') {
+              router.push('/')
+              return
+            }
+            setFeadbackPopUp({
+              open: false,
+              message: '',
+              type: 'success',
+              mode: 'create',
+            })
+            goBack()
+          }}
         />
       )}
 
-      {!isSuccess && (
+      {!feadbackPopUp.open && (
         <S.Form>
           <S.FormItem>
             <Controller
@@ -162,7 +265,7 @@ const CreateHabit = ({ goBack }: CreateHabitProps) => {
         </S.Form>
       )}
 
-      {!isSuccess && (
+      {!feadbackPopUp.open && (
         <Button
           width="full"
           size="medium"
@@ -170,10 +273,22 @@ const CreateHabit = ({ goBack }: CreateHabitProps) => {
           onClick={handleSubmit(onCreateHabit)}
           isLoding={isLoading}
         >
-          {isLoading && 'Creating habit...'}
-          {isSuccess && 'Habit created'}
-          {isError && "Couldn't create habit, try again"}
-          {!isSuccess && !isError && 'Create habit'}
+          {isLoading && isEdit && habitMessage.edit.loading}
+          {isLoading && !isEdit && habitMessage.create.loading}
+          {isEdit ? habitMessage.edit.button : habitMessage.create.button}
+        </Button>
+      )}
+      {isEdit && !feadbackPopUp.open && (
+        <Button
+          width="full"
+          size="medium"
+          color="danger"
+          style={{
+            marginTop: '1rem',
+          }}
+          onClick={onDeleteHabit}
+        >
+          Delete habit
         </Button>
       )}
     </S.Wrapper>

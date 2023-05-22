@@ -9,42 +9,42 @@ import {
 
 const categories = [
   {
-    id: '1',
+    id: '0',
     key: 'reading',
     title: 'Reading the book',
     color: '#6cf583',
     icon: <FaBook color="#fff" size="20px" />,
   },
   {
-    id: '2',
+    id: '1',
     key: 'running',
     title: 'Running',
     color: '#f5cd79',
     icon: <FaRunning color="#fff" size="20px" />,
   },
   {
-    id: '3',
+    id: '2',
     key: 'meditation',
     title: 'Meditation',
     color: '#e73159',
     icon: <FaMeetup color="#fff" size="20px" />,
   },
   {
-    id: '4',
+    id: '3',
     key: 'coding',
     title: 'Coding',
     color: '#f3a4e2',
     icon: <FaCode color="#fff" size="20px" />,
   },
   {
-    id: '5',
+    id: '4',
     key: 'english',
     title: 'English',
     color: '#a4f3e8',
     icon: <FaLanguage color="#fff" size="20px" />,
   },
   {
-    id: '6',
+    id: '5',
     key: 'cooking',
     title: 'Cooking',
     color: '#f3f2a4',

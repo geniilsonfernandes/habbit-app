@@ -1,8 +1,8 @@
-export type Status = 'success' | 'delayed' | 'failed' | 'default'
+export type Status = 'success' | 'failed' | 'default'
 
 export const statusMap: Record<string, Status> = {
   default: 'success',
-  success: 'delayed',
+  success: 'failed',
   delayed: 'failed',
   failed: 'default',
 }

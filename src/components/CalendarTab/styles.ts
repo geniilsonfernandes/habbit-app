@@ -13,7 +13,11 @@ export const Wrapper = styled.div`
   display: flex;
 `
 export const SliderWrapper = styled.div`
-  max-width: 333px;
+  width: 82%;
+
+  @media (max-width: 768px) {
+    width: 88%;
+  }
 
   .slick-list,
   .slick-slider,

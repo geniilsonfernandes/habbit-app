@@ -6,11 +6,20 @@ export type DateProps = {
   status: Status
 }
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+type WrapperProps = {
+  clickable?: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ clickable = true }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    opacity: ${clickable ? 1 : 0.1};
+    pointer-events: ${clickable ? 'all' : 'none'};
+  `}
 `
 
 export const Day = styled.div`

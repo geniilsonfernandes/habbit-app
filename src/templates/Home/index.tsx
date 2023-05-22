@@ -6,6 +6,7 @@ import * as S from './styles'
 import { useQuery } from '@tanstack/react-query'
 import Loader from 'components/Loader'
 import { HabitService, IGetAllHabitsResponse } from 'services/habitService'
+import { useRouter } from 'next/router'
 
 type RenderIfProps = {
   condition: boolean
@@ -24,6 +25,7 @@ const RenderIf = ({ condition, children }: RenderIfProps) => {
 }
 
 const Home = () => {
+  const router = useRouter()
   const { data, isLoading } = useQuery({
     queryKey: ['habit', 'list'],
     queryFn: HabitService.getAll,
@@ -32,7 +34,7 @@ const Home = () => {
         return {
           id: item.id,
           habitName: item.name,
-          intervalTime: item.interval.map((item) => item).join(', '),
+          intervalTime: item.interval,
           habbitColor: item.color,
           progress: item.lastEightDays,
         }
@@ -41,11 +43,22 @@ const Home = () => {
     },
   })
 
+  const handleClickToOpenHabit = (id: string) => {
+    router.push(`/habit/${id}`)
+  }
+
   return (
     <Base>
       <RenderIf condition={!!data && !isLoading}>
         <S.Habits>
-          {data && data.map((item) => <CardHabit key={item.id} {...item} />)}
+          {data &&
+            data.map((item) => (
+              <CardHabit
+                key={item.id}
+                {...item}
+                onClick={() => handleClickToOpenHabit(item.id)}
+              />
+            ))}
         </S.Habits>
       </RenderIf>
     </Base>

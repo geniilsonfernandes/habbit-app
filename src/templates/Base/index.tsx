@@ -6,9 +6,12 @@ import useMediaQuery from 'hook/useMediaQuery'
 import useVisibility from 'hook/useVisibility'
 import { FaPlus } from 'react-icons/fa'
 import * as S from './styles'
+import Loader from 'components/Loader'
+import { useRouter } from 'next/router'
 
 type BaseProps = {
   children: React.ReactNode
+  isLoading?: boolean
 }
 
 const user = {
@@ -16,7 +19,11 @@ const user = {
   img: 'https://avatars.githubusercontent.com/u/61945302?v=4',
 }
 
-const Base = ({ children }: BaseProps) => {
+const Base = ({ children, isLoading = false }: BaseProps) => {
+  const router = useRouter()
+
+  const showButtonAdd = router.pathname === '/'
+
   const { isVisible, hide, show } = useVisibility()
 
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -45,7 +52,10 @@ const Base = ({ children }: BaseProps) => {
               <S.Sidebar>
                 <MenuList />
               </S.Sidebar>
-              <S.Main>{children}</S.Main>
+              <S.Main>
+                {isLoading && <Loader />}
+                {!isLoading && <>{children}</>}
+              </S.Main>
             </S.Content>
           </S.WrapperContent>
         </S.Filter>
@@ -69,9 +79,11 @@ const Base = ({ children }: BaseProps) => {
           />
         </>
       </Modal>
-      <S.ButtonAdd onClick={handleCreateHabit}>
-        <FaPlus />
-      </S.ButtonAdd>
+      {showButtonAdd && (
+        <S.ButtonAdd onClick={handleCreateHabit}>
+          <FaPlus />
+        </S.ButtonAdd>
+      )}
     </div>
   )
 }

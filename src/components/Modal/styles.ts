@@ -66,6 +66,7 @@ export const Content = styled.div<ModalContentProps>`
     display: flex;
     align-items: center;
     justify-content: center;
+
     ${intoOpacity}
 
     ${ContentModifiers[size]()}

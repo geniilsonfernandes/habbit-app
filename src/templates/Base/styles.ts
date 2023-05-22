@@ -8,16 +8,6 @@ export const Container = styled.div`
 
     position: relative;
     background: ${theme.colors.primary.gradient[600]};
-    @media (max-width: ${theme.viewPorts.tablet}) {
-      &: before {
-        display: none;
-      }
-      &: after {
-        display: none;
-      }
-
-      background: ${theme.colors.primary.gradient[600]};
-    }
 
     overflow-x: hidden;
     backdrop-filter: blur(86px);
@@ -107,11 +97,12 @@ export const ButtonAdd = styled(Button).attrs({
   ${({ theme }) => css`
     position: fixed;
     bottom: 32px;
-    right: 100px;
+    right: 50%;
+    transform: translateX(50%);
 
     background: ${theme.colors.primary[100]};
     @media (max-width: ${theme.viewPorts.tablet}) {
-      right: 32px;
+      right: 58px;
       bottom: 80px;
     }
   `}

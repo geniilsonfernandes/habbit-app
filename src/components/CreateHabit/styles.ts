@@ -1,13 +1,17 @@
 import styled, { css } from 'styled-components'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+type WrapperProps = {
+  isEdit?: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ theme, isEdit }) => css`
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
 
-    background: ${theme.colors.background[800]};
+    background: ${isEdit ? 'transparent' : theme.colors.background[800]};
     border-radius: ${theme.radius.md};
     padding: ${theme.spacings.xsmall};
     padding-top: 0;
