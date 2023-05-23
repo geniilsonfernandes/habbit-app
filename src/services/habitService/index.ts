@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import dayjs from 'dayjs'
+import api from 'libs/axios'
 import Habit from 'services/entities/Habit'
 import HabitRecord from 'services/entities/HabitRecord'
 import { LocalStorage } from 'services/localStorage'
@@ -70,56 +72,44 @@ const user_id = '101'
 class HabitService {
   static async create(data: HabitCreatePayload): Promise<void> {
     if (data.id) {
-      const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
+      const { id, ...rest } = data
 
-      console.log(data)
-
-      const newHabit = storageHabit.map((habit) => {
-        if (habit.id === data.id) {
-          return {
-            ...habit,
-            category: data.category,
-            color: data.color,
-            interval: data.frequency,
-            name: data.habit,
-          }
-        }
-        return habit
+      await api.put(`/habit/${id}`, {
+        name: rest.habit,
+        category: rest.category,
+        color: rest.color,
+        interval: rest.frequency,
       })
 
-      storage.update(KEYS.HABITS, newHabit)
       return
     }
 
+    await api.post('/habit', {
+      name: data.habit,
+      category: data.category,
+      color: data.color,
+      interval: data.frequency,
+    })
     const newHabit = new Habit(data)
     storage.save(KEYS.HABITS, newHabit)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static async getByDate(date: Date): Promise<any> {
-    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-    const storageProgress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
+    const { data } = await api.get('/habit', {
+      params: {
+        date,
+      },
+    })
 
-    const filterByUser = storageHabit.filter(
-      (habit) => habit.user_id === user_id,
-    )
+    const dateutc = new Date(date).setHours(0, 0, 0, 0)
+    const day = dayjs(dateutc)
 
-    const filterProgressByUser = storageProgress.filter(
-      (progress) => progress.user_id === user_id,
-    )
-    const day = dayjs(date)
-
-    const filterByDate = filterByUser.map((habit) => {
-      const finderProgress = filterProgressByUser.find(
-        (progress) =>
-          dayjs(progress.date).isSame(day, 'day') &&
-          progress.habit_id === habit.id,
-      )
-
+    const habits = data.map((habit: any) => {
       return {
         ...habit,
-        date: day.toDate(),
-        progress_day: finderProgress || {
+        date: habit.date,
+        progress_day: habit.record[0] || {
           id: null,
           habit_id: habit.id,
           user_id: user_id,
@@ -129,33 +119,23 @@ class HabitService {
       }
     })
 
-    return filterByDate
+    return habits
   }
 
   static async getAll(): Promise<IGetAllHabitsResponse> {
-    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-    const storageProgress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
+    const { data } = await api.get('/habit')
 
-    const filterByUser = storageHabit.filter(
-      (habit) => habit.user_id === user_id,
-    )
+    const record = data
 
-    const filterProgressByUser = storageProgress.filter(
-      (progress) => progress.user_id === user_id,
-    )
-
-    const createHabitWithProgress = filterByUser.map((habit) => {
-      const finderAllProgress = filterProgressByUser.filter(
-        (progress) => progress.habit_id === habit.id,
-      )
-
-      const lastEightDays = (progress: HabitRecord[]) => {
-        return Array(8)
+    const createHabit = record.map((habit: any) => {
+      return {
+        ...habit,
+        lastEightDays: Array(8)
           .fill(null)
           .map((_, index) => {
             const today = dayjs().startOf('day')
             const pastDate = today.subtract(index, 'day')
-            const progressAlreadySaved = progress.find((progress) =>
+            const progressAlreadySaved = habit.record.find((progress: any) =>
               dayjs(progress.date).isSame(pastDate, 'day'),
             )
             return {
@@ -169,93 +149,66 @@ class HabitService {
               },
             }
           })
-      }
-
-      return {
-        ...habit,
-        progress: finderAllProgress.map((progress) => progress.id),
-        lastEightDays: lastEightDays(finderAllProgress).reverse(),
+          .reverse(),
       }
     })
 
     return {
-      habit: createHabitWithProgress,
+      habit: createHabit,
     }
   }
 
   static async get(id: string): Promise<IGetHabitResponse> {
-    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-    const progress = storage.getAll<HabitRecord>(KEYS.PROGRESS)
-    const findHabit = storageHabit.find((habit) => habit.id === id)
-    if (!findHabit) {
+    const { data } = await api.get(`/habit/${id}`)
+
+    const { record } = data
+
+    if (!data) {
       throw new Error('Habit not found')
     }
-
-    const filterProgressByUser = progress.filter(
-      (progress) => progress.user_id === user_id && progress.habit_id === id,
-    )
 
     const filterByMonth: Array<HabitRecord[]> = Array.from(
       { length: 12 },
       () => [],
     )
 
-    filterProgressByUser.forEach((progress) => {
+    record.forEach((progress: any) => {
       const month = dayjs(progress.date).month()
       filterByMonth[month].push(progress)
     })
 
     return {
-      ...findHabit,
-      progress: filterProgressByUser,
+      ...data,
+      progress: record,
       months: filterByMonth,
     }
   }
 
   static async saveProgress({
-    user_id,
     habit_id,
     data,
   }: HabitSavePayload): Promise<void> {
     const { date, progress, day_id } = data
 
     if (day_id) {
-      const findProgress = storage
-        .getAll<HabitRecord>(KEYS.PROGRESS)
-        .filter((progress) => progress.user_id === user_id)
-
-      const newProgressList = findProgress.map((progressDay) => {
-        if (progressDay.id === day_id) {
-          return {
-            ...progressDay,
-            progress: progress,
-            updated_at: new Date(),
-          }
-        }
-        return progressDay
+      await api.put(`/record`, {
+        day_id,
+        progress,
       })
-
-      storage.update(KEYS.PROGRESS, newProgressList)
 
       return
     }
 
-    const newProgress = new HabitRecord({
-      user_id,
+    await api.post(`/record`, {
       habit_id,
-      date: date,
-      progress: progress,
+      date,
+      progress,
+      user_id: '646be0c1c1388e2ec1358ed9',
     })
-
-    storage.save(KEYS.PROGRESS, newProgress)
   }
 
   static async delete(id: string): Promise<void> {
-    const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-
-    const newHabit = storageHabit.filter((habit) => habit.id !== id)
-
-    storage.update(KEYS.HABITS, newHabit)
+    await api.delete(`/habit/${id}`)
   }
 }
 

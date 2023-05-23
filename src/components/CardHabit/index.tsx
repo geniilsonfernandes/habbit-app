@@ -32,6 +32,8 @@ export type CardHabitProps = {
     date: Date
     status: Status
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  queryKey?: any[]
 }
 
 type HandleClickProps = {
@@ -49,6 +51,7 @@ const CardHabit = ({
   version = 'days',
   onClick,
   today,
+  queryKey,
 }: CardHabitProps) => {
   const editHabit = useMutation({
     mutationKey: ['updateHabit'],
@@ -56,10 +59,12 @@ const CardHabit = ({
     onSettled: () => {
       queryClient.invalidateQueries(['habit', 'list'])
       queryClient.invalidateQueries(['habit_unique'])
+      queryClient.invalidateQueries(queryKey)
     },
     onError() {
       queryClient.invalidateQueries(['habit_unique'])
       queryClient.invalidateQueries(['habit', 'list'])
+      queryClient.invalidateQueries(queryKey)
     },
   })
 
@@ -83,6 +88,7 @@ const CardHabit = ({
     console.log({ status, date, day_id })
 
     const nextStatus: Status = statusMap[status]
+    console.log({ status, date, day_id })
 
     editHabit.mutate({
       user_id: '101',
