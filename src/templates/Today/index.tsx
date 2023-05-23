@@ -1,7 +1,7 @@
 import CalendarTab from 'components/CalendarTab'
 import CardHabit from 'components/CardHabit'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Base from 'templates/Base'
 
 import { useQuery } from '@tanstack/react-query'
@@ -18,11 +18,10 @@ const HabitList = ({ date }: HabitListProps) => {
     staleTime: 0,
   })
 
-  console.log(data)
-
   return (
     <S.HabitList>
       {data &&
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data.map((item: any) => (
           <CardHabit
             key={item.id}

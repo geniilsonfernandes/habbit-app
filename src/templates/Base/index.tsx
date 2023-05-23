@@ -12,6 +12,10 @@ import { useRouter } from 'next/router'
 type BaseProps = {
   children: React.ReactNode
   isLoading?: boolean
+  user: {
+    name: string
+    img: string
+  }
 }
 
 const user = {
@@ -19,7 +23,9 @@ const user = {
   img: 'https://avatars.githubusercontent.com/u/61945302?v=4',
 }
 
-const Base = ({ children, isLoading = false }: BaseProps) => {
+const Base = ({ children, isLoading = false, user }: BaseProps) => {
+  console.log(user)
+
   const router = useRouter()
 
   const showButtonAdd = router.pathname === '/'
@@ -44,7 +50,10 @@ const Base = ({ children, isLoading = false }: BaseProps) => {
             <S.Header>
               <Head
                 title="Habits"
-                user={user}
+                user={{
+                  name: user.name,
+                  img: user.img,
+                }}
                 menuMobileClick={handleOpenSidebar}
               />
             </S.Header>

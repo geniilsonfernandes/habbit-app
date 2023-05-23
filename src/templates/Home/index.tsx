@@ -7,6 +7,9 @@ import { useQuery } from '@tanstack/react-query'
 import Loader from 'components/Loader'
 import { HabitService, IGetAllHabitsResponse } from 'services/habitService'
 import { useRouter } from 'next/router'
+import Visitor from 'templates/Visitor'
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import { GetServerSidePropsContext } from 'next'
 
 type RenderIfProps = {
   condition: boolean
@@ -24,7 +27,14 @@ const RenderIf = ({ condition, children }: RenderIfProps) => {
   )
 }
 
-const Home = () => {
+type HomeProps = {
+  user_id: string
+  user: {
+    name: string
+    img: string
+  }
+}
+const Home = ({ user_id, user }: HomeProps) => {
   const router = useRouter()
   const { data, isLoading } = useQuery({
     queryKey: ['habit', 'list'],
@@ -47,8 +57,19 @@ const Home = () => {
     router.push(`/habit/${id}`)
   }
 
+  console.log({ user_id })
+
+  if (!user_id) {
+    return <Visitor />
+  }
+
   return (
-    <Base>
+    <Base
+      user={{
+        name: user.name,
+        img: user.img,
+      }}
+    >
       <RenderIf condition={!!data && !isLoading}>
         <S.Habits>
           {data &&

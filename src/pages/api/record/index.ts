@@ -26,13 +26,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case 'POST':
       {
         try {
-          const { progress, date, habit_id, user_id } = req.body
+          const { progress, date, habit_id } = req.body
           const newRecord = await client.record.create({
             data: {
               progress: String(progress),
               date: new Date(date),
               habit_id: String(habit_id),
-              user_id: String(user_id),
             },
           })
           res.status(200).json(newRecord)

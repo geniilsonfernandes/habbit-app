@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { v4 as uuidv4 } from 'uuid'
 import dayjs from 'dayjs'
 import api from 'libs/axios'
 import Habit from 'services/entities/Habit'
@@ -40,6 +41,7 @@ export interface IGetAllHabitsResponse {
       date: Date
       progress: HabitStatus
       id: string | null
+      id_cache: string
       date_view: {
         day: string
         nm_day: string
@@ -109,13 +111,16 @@ class HabitService {
       return {
         ...habit,
         date: habit.date,
-        progress_day: habit.record[0] || {
-          id: null,
-          habit_id: habit.id,
-          user_id: user_id,
-          date: day.toDate(),
-          progress: 'default',
-        },
+        progress_day: habit.record[0]
+          ? { id_cache: uuidv4(), ...habit.record[0] }
+          : {
+              id: null,
+              habit_id: habit.id,
+              user_id: user_id,
+              date: day.toDate(),
+              progress: 'default',
+              id_cache: uuidv4(),
+            },
       }
     })
 
@@ -142,6 +147,7 @@ class HabitService {
               date: pastDate.toDate(),
               progress: progressAlreadySaved?.progress || 'default',
               id: progressAlreadySaved ? progressAlreadySaved.id : null,
+              id_cache: uuidv4(),
               date_view: {
                 day: pastDate.format('DD'),
                 nm_day: pastDate.format('ddd'),
@@ -203,7 +209,6 @@ class HabitService {
       habit_id,
       date,
       progress,
-      user_id: '646be0c1c1388e2ec1358ed9',
     })
   }
 

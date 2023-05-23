@@ -1,14 +1,16 @@
 import dayjs from 'dayjs'
 import client from 'libs/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const user = '646be0c1c1388e2ec1358ed9'
+import { parseCookies } from 'nookies'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET': {
       try {
         const { date } = req.query as { date: string }
+
+        const cookies = parseCookies({ req })
+        const user = cookies['@habit/user']
 
         const utcdate = new Date(date).setHours(0, 0, 0, 0)
 
@@ -53,6 +55,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     case 'POST':
       {
         try {
+          const cookies = parseCookies({ req })
+          const user = cookies['@habit/user']
+
           const { name, category, color, interval } = req.body
           const newHabit = await client.habit.create({
             data: {

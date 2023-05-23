@@ -12,11 +12,6 @@ const list = [
     icon: 'home',
     key: 'today',
   },
-  {
-    title: 'Categories',
-    icon: 'category',
-    key: 'categories',
-  },
 ]
 export type MenuListProps = {
   isMobile?: boolean

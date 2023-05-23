@@ -35,6 +35,10 @@ class LocalStorage {
       localStorage.setItem(key, JSON.stringify(newData))
     }
   }
+
+  deleteAll(key: string): void {
+    localStorage.removeItem(key)
+  }
 }
 
 export { LocalStorage }
