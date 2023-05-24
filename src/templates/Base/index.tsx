@@ -1,22 +1,16 @@
 import CreateHabit from 'components/CreateHabit'
 import Head from 'components/Head'
-import MenuList from 'components/MenuList'
+import Loader from 'components/Loader'
 import Modal from 'components/Modal'
 import useMediaQuery from 'hook/useMediaQuery'
 import useVisibility from 'hook/useVisibility'
+import { useRouter } from 'next/router'
 import { FaPlus } from 'react-icons/fa'
 import * as S from './styles'
-import Loader from 'components/Loader'
-import { useRouter } from 'next/router'
 
 type BaseProps = {
   children: React.ReactNode
   isLoading?: boolean
-}
-
-const user = {
-  name: 'placeholder',
-  img: 'https://avatars.githubusercontent.com/u/61945302?v=4',
 }
 
 const Base = ({ children, isLoading = false }: BaseProps) => {
@@ -28,10 +22,6 @@ const Base = ({ children, isLoading = false }: BaseProps) => {
 
   const isMobile = useMediaQuery('(max-width: 768px)')
 
-  const handleOpenSidebar = () => {
-    console.log('click')
-  }
-
   const handleCreateHabit = () => {
     show()
   }
@@ -42,16 +32,9 @@ const Base = ({ children, isLoading = false }: BaseProps) => {
         <S.Filter>
           <S.WrapperContent>
             <S.Header>
-              <Head
-                title="Habits"
-                user={user}
-                menuMobileClick={handleOpenSidebar}
-              />
+              <Head title="Habits" />
             </S.Header>
             <S.Content>
-              <S.Sidebar>
-                <MenuList />
-              </S.Sidebar>
               <S.Main>
                 {isLoading && <Loader />}
                 {!isLoading && <>{children}</>}
@@ -60,11 +43,6 @@ const Base = ({ children, isLoading = false }: BaseProps) => {
           </S.WrapperContent>
         </S.Filter>
       </S.Container>
-      {isMobile && (
-        <S.MenuMobile>
-          <MenuList isMobile={isMobile} />
-        </S.MenuMobile>
-      )}
 
       <Modal
         isOpen={isVisible}

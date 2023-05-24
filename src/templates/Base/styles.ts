@@ -79,16 +79,9 @@ export const Sidebar = styled.div`
 `
 
 export const Main = styled.div`
-  ${({ theme }) => css`
-    grid-column-start: 3;
-    grid-column-end: 7;
-    padding-bottom: 16px;
-    @media (max-width: ${theme.viewPorts.tablet}) {
-      grid-column-start: 1;
-      grid-column-end: 7;
-      padding-bottom: calc(96px + 16px);
-    }
-  `}
+  grid-column-start: 1;
+  grid-column-end: 7;
+  padding-bottom: calc(96px + 16px);
 `
 
 export const ButtonAdd = styled(Button).attrs({

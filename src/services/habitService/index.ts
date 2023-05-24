@@ -12,7 +12,6 @@ const KEYS = {
 }
 
 type HabitSavePayload = {
-  user_id: string
   habit_id: string
   data: {
     day_id: string | null
@@ -71,8 +70,6 @@ class HabitService {
   static async create(data: HabitCreatePayload): Promise<void> {
     if (data.id) {
       const storageHabit = storage.getAll<Habit>(KEYS.HABITS)
-
-      console.log(data)
 
       const newHabit = storageHabit.map((habit) => {
         if (habit.id === data.id) {
@@ -213,7 +210,6 @@ class HabitService {
   }
 
   static async saveProgress({
-    user_id,
     habit_id,
     data,
   }: HabitSavePayload): Promise<void> {

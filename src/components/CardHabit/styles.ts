@@ -4,17 +4,13 @@ import { MdCheck } from 'react-icons/md'
 import { HabitStatus } from 'shared/habit/styles'
 import styled, { css } from 'styled-components'
 
-type WrapperProps = {
-  orientation: 'horizontal' | 'vertical'
-}
-
 type HabitActionsProps = {
   status?: 'success' | 'delayed' | 'failed' | 'default'
 }
 
-export const Wrapper = styled(Card)<WrapperProps>`
-  ${({ theme, orientation }) => css`
-    display: ${orientation === 'horizontal' ? 'flex' : 'inline-block'};
+export const Wrapper = styled(Card)`
+  ${({ theme }) => css`
+    display: 'flex';
     justify-content: space-between;
     padding: ${theme.spacings.xsmall};
     transition: all 0.2s ease-in-out;
