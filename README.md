@@ -12,7 +12,7 @@
   <h2 align="center" id="sobre-o-projeto">Sobre o projeto</h2>
 
   <p align="center">
-    <a href="">
+    <a href="https://habbit-app.vercel.app/">
       Veja o projeto ao vivo
     </a>
   <p>
